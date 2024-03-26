@@ -48,10 +48,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     //firebaseDefault
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
     implementation("com.google.firebase:firebase-analytics")
 
 
+    implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-ml-natural-language:22.0.0")
     implementation("com.google.firebase:firebase-ml-natural-language-translate-model:20.0.8")
     implementation("com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.7")

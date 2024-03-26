@@ -34,6 +34,13 @@ class MainActivity : AppCompatActivity() {
         "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
         "Turkish"
     )
+    private var toLanguage = arrayOf(
+        "To", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
+        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
+        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
+        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
+        "Turkish"
+    )
 
     private var toLanguages = fromLanguages // Assuming toLanguages should be the same as fromLanguages
 
@@ -69,11 +76,21 @@ class MainActivity : AppCompatActivity() {
 
         fromSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-               toLanguageCode = getLanguageCode(toLanguages[position])
+                fromLanguageCode = getLanguageCode(fromLanguages[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Optional implementation
+                // Opcional
+            }
+        }
+
+        toSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                toLanguageCode = getLanguageCode(toLanguages[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Opcional
             }
         }
 
@@ -104,8 +121,8 @@ class MainActivity : AppCompatActivity() {
                 translateText(fromLanguageCode, toLanguageCode, sourceText?.text.toString())
             }
         }
-
     }
+
 
     private fun translateText(fromLanguageCode: Int, toLanguageCode: Int, source: String) {
         translateTV?.text = "Downloading model! Please wait..."
