@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684238212774",
+    "project_id": "linguaforge-2afd8",
+    "storage_bucket": "linguaforge-2afd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684238212774:android:5b2268f90f06bf1acaae67",
+        "android_client_info": {
+          "package_name": "com.example.linguaforge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1cEr4UlG4p-Kwli4DaVi9h4oofnjv8Ow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
