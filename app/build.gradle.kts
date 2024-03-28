@@ -50,8 +50,6 @@ dependencies {
     //firebaseDefault
 
     implementation("com.google.firebase:firebase-analytics")
-
-
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-ml-natural-language:22.0.0")
     implementation("com.google.firebase:firebase-ml-natural-language-translate-model:20.0.8")

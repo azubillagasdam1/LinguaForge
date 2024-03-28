@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
         "Turkish"
     )
-    private var toLanguage = arrayOf(
+    private var toLanguages = arrayOf(
         "To", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
         "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
         "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         "Turkish"
     )
 
-    private var toLanguages = fromLanguages // Assuming toLanguages should be the same as fromLanguages
+
 
     private var fromSpinner: Spinner? = null
     private var toSpinner: Spinner? = null
@@ -193,5 +193,11 @@ class MainActivity : AppCompatActivity() {
             "Turkish" -> FirebaseTranslateLanguage.TR
             else -> FirebaseTranslateLanguage.EN // Default or consider throwing an error
         }
+    }
+
+    fun irRecicler(view: View) {
+        val intent = Intent(this,ElegirActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
