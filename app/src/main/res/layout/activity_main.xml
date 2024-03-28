@@ -150,7 +150,14 @@
 <Button
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:text="reciclerView"
     android:clickable="true"
     android:onClick="irRecicler"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="login"
+            android:clickable="true"
+            android:onClick="irLogin"/>
     </LinearLayout>
 </ScrollView>

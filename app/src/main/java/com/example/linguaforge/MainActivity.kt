@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.linguaforge.models.utils.LoginActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() {
     private var toLanguageCode = 0
 
     private var fromLanguages = arrayOf(
-        "From", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
-        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
-        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
-        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
-        "Turkish"
+            "From", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
+            "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
+            "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
+            "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
+            "Turkish"
     )
     private var toLanguages = arrayOf(
         "To", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
@@ -123,7 +124,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun translateText(fromLanguageCode: Int, toLanguageCode: Int, source: String) {
         translateTV?.text = "Downloading model! Please wait..."
 
@@ -148,7 +148,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -158,8 +157,6 @@ class MainActivity : AppCompatActivity() {
             sourceText?.text = editable
         }
     }
-
-
 
     private fun getLanguageCode(language: String): Int {
         return when (language) {
@@ -197,6 +194,12 @@ class MainActivity : AppCompatActivity() {
 
     fun irRecicler(view: View) {
         val intent = Intent(this,ElegirActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    fun irLogin(view: View) {
+        val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
