@@ -1,0 +1,8 @@
+<resources>
+    <!-- Estilo personalizado para los elementos del Spinner -->
+    <style name="SpinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textSize">24sp</item> <!-- Cambia esto para ajustar el tamaño -->
+        <item name="android:textAlignment">center</item>
+        <item name="android:padding">8dp</item>
+    </style>
+</resources>

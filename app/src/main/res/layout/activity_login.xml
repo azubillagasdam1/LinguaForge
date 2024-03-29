@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".models.utils.LoginActivity">
+    tools:context=".activitys.LoginActivity">
 
     <ImageView
         android:id="@+id/logoImageView"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
-        android:id="@+id/usernameEditText"
+        android:id="@+id/editTextEmail"
         android:layout_width="0dp"
         android:layout_height="50dp"
     android:hint="Usuario"
@@ -44,7 +44,7 @@
     app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/editTextContrasena"
         android:layout_width="0dp"
         android:layout_height="50dp"
     android:hint="Contraseña"
@@ -53,7 +53,7 @@
     android:layout_marginStart="32dp"
     android:layout_marginEnd="32dp"
     android:background="@drawable/edittext_background"
-    app:layout_constraintTop_toBottomOf="@id/usernameEditText"
+    app:layout_constraintTop_toBottomOf="@id/editTextEmail"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -63,7 +63,9 @@
         android:layout_height="wrap_content"
         android:src="@drawable/google_login"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@id/editTextContrasena"
+        android:clickable="true"
+        android:onClick="iniciarSesionGoogle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

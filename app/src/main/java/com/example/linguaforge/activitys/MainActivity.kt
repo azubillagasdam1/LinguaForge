@@ -1,4 +1,4 @@
-package com.example.linguaforge
+package com.example.linguaforge.activitys
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,12 +13,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.linguaforge.models.utils.LoginActivity
+import com.example.linguaforge.R
+import com.example.linguaforge.models.utils.Utils
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import java.util.Locale
 
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         fromSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                fromLanguageCode = getLanguageCode(fromLanguages[position])
+                fromLanguageCode = Utils.getLanguageFirebaseCode(fromLanguages[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         toSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                toLanguageCode = getLanguageCode(toLanguages[position])
+                toLanguageCode = Utils.getLanguageFirebaseCode(toLanguages[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -158,48 +158,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getLanguageCode(language: String): Int {
-        return when (language) {
-            "English" -> FirebaseTranslateLanguage.EN
-            "Welsh" -> FirebaseTranslateLanguage.CY
-            "Hindi" -> FirebaseTranslateLanguage.HI
-            "Urdu" -> FirebaseTranslateLanguage.UR
-            "Afrikaans" -> FirebaseTranslateLanguage.AF
-            "Arabic" -> FirebaseTranslateLanguage.AR
-            "Belarusian" -> FirebaseTranslateLanguage.BE
-            "Bulgarian" -> FirebaseTranslateLanguage.BG
-            "Bengali" -> FirebaseTranslateLanguage.BN
-            "Catalan" -> FirebaseTranslateLanguage.CA
-            "Czech" -> FirebaseTranslateLanguage.CS
-            "Danish" -> FirebaseTranslateLanguage.DA
-            "Dutch" -> FirebaseTranslateLanguage.NL
-            "Finnish" -> FirebaseTranslateLanguage.FI
-            "French" -> FirebaseTranslateLanguage.FR
-            "German" -> FirebaseTranslateLanguage.DE
-            "Greek" -> FirebaseTranslateLanguage.EL
-            "Hungarian" -> FirebaseTranslateLanguage.HU
-            "Italian" -> FirebaseTranslateLanguage.IT
-            "Japanese" -> FirebaseTranslateLanguage.JA
-            "Korean" -> FirebaseTranslateLanguage.KO
-            "Norwegian" -> FirebaseTranslateLanguage.NO
-            "Polish" -> FirebaseTranslateLanguage.PL
-            "Portuguese" -> FirebaseTranslateLanguage.PT
-            "Russian" -> FirebaseTranslateLanguage.RU
-            "Spanish" -> FirebaseTranslateLanguage.ES
-            "Swedish" -> FirebaseTranslateLanguage.SV
-            "Turkish" -> FirebaseTranslateLanguage.TR
-            else -> FirebaseTranslateLanguage.EN // Default or consider throwing an error
-        }
-    }
 
     fun irRecicler(view: View) {
-        val intent = Intent(this,ElegirActivity::class.java)
+        val intent = Intent(this, ElegirActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     fun irLogin(view: View) {
-        val intent = Intent(this,LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }

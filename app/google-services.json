@@ -12,7 +12,36 @@
           "package_name": "com.example.linguaforge"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "684238212774-b2n38sfjtjpiqtqbnf7g15mvc1tke0in.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.linguaforge",
+            "certificate_hash": "19baacbe000cc311f1e6d8504bf942da8b2da946"
+          }
+        },
+        {
+          "client_id": "684238212774-d8u1o01rfdmj5rm857caeji19sq9m9vt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.linguaforge",
+            "certificate_hash": "4ba583d91ab7c6075e5169d368545d0fc0ce3718"
+          }
+        },
+        {
+          "client_id": "684238212774-f3f9tui880s3olrrs1g8shgf004giav0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.linguaforge",
+            "certificate_hash": "3d981d664beda99e709b1af956a276a50747a80c"
+          }
+        },
+        {
+          "client_id": "684238212774-irv66cbobfsts532pkgf4c2sr00o4gf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA1cEr4UlG4p-Kwli4DaVi9h4oofnjv8Ow"
@@ -20,7 +49,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684238212774-irv66cbobfsts532pkgf4c2sr00o4gf2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
