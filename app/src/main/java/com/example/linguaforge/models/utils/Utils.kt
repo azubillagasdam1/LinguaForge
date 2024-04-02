@@ -4,8 +4,10 @@ package com.example.linguaforge.models.utils
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
+import kotlinx.coroutines.runBlocking
 
 object Utils {
 
@@ -100,7 +102,60 @@ object Utils {
     fun salirAplicacion(activity: Activity){
         activity.finishAffinity()
     }
+
+    fun anadirIdioma(titulo:String, subtitulo:String, idioma: String) = runBlocking {
+        // Suponiendo que getIdiomas ahora devuelve List<Map<String, String>>?
+        var idiomas: MutableList<Map<String, String>>? = UtilsDB.getIdiomas()?.toMutableList()
+        if (idiomas == null) {
+            idiomas = mutableListOf()
         }
+        val nuevoIdioma = mapOf(
+            "titulo" to titulo,
+            "subtitulo" to subtitulo,
+            "idioma" to idioma
+        )
+        idiomas.add(nuevoIdioma)
+        UtilsDB.setIdioma(idiomas)
+
+    }
+    fun eliminarIdioma(indice: Int) = runBlocking {
+        // Obtiene la lista actual de idiomas
+        var idiomas: MutableList<Map<String, String>>? = UtilsDB.getIdiomas()?.toMutableList()
+        if (idiomas != null && indice >= 0 && indice < idiomas.size) {
+            // Elimina el idioma en el índice especificado
+            idiomas.removeAt(indice)
+
+            // Actualiza la lista de idiomas en la base de datos
+            UtilsDB.setIdioma(idiomas)
+        } else {
+            // Puedes manejar el caso en que el índice no sea válido o la lista sea nula
+            Log.e("EliminarIdioma", "Índice fuera de rango o lista de idiomas nula")
+        }
+    }
+
+    fun anadirPalabra( idioma: String,palabra: String, traduccion: String) = runBlocking {
+        var idiomas: MutableList<Map<String, List<List<String>>>>? = UtilsDB.getPalabras()?.toMutableList()
+        if (idiomas == null) {
+            idiomas = mutableListOf()
+        }
+        var mapaIdioma = idiomas.find { it.containsKey(idioma) }
+
+        if (mapaIdioma == null) {
+            mapaIdioma = mapOf(idioma to mutableListOf(listOf(palabra, traduccion)))
+            idiomas.add(mapaIdioma)
+        } else {
+            val traducciones = mapaIdioma[idioma]?.toMutableList() ?: mutableListOf()
+            traducciones.add(listOf(palabra, traduccion))
+            mapaIdioma = mapOf(idioma to traducciones)
+            idiomas[idiomas.indexOfFirst { it.containsKey(idioma) }] = mapaIdioma
+        }
+
+        UtilsDB.setPalabra(idiomas)
+
+    }
+
+
+}
 
 
 

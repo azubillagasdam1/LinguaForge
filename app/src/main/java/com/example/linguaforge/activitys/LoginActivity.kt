@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -24,7 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.GoogleAuthProvider
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 class LoginActivity : AppCompatActivity() {
@@ -46,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         // Comprobar si el usuario ya está autenticado con Firebase al iniciar la actividad
         if (FirebaseDB.getInstanceFirebase().currentUser != null) {
             // El usuario ya está autenticado, redirigir a ElegirActivity
-            val intent = Intent(this, ElegirActivity::class.java)
+            val intent = Intent(this, ElegirIdiomaActivity::class.java)
             startActivity(intent)
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
@@ -183,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                         .addOnSuccessListener { documents ->
                             if (!documents.isEmpty) {
 
-                                val intent = Intent(this, ElegirActivity::class.java)
+                                val intent = Intent(this, ElegirIdiomaActivity::class.java)
                                 startActivity(intent)
                                 finish()
                                 mediaPlayer.start()
@@ -202,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
 
 
                                 UserDao.addUser(user)
-                                val intent = Intent(this, ElegirActivity::class.java)
+                                val intent = Intent(this, ElegirIdiomaActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }

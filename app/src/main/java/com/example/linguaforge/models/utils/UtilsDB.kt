@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import com.example.linguaforge.models.db.FirebaseDB
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.tasks.await
+
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -174,6 +175,32 @@ class UtilsDB {
                 null
             }
         }
+        suspend fun getPalabras(): List<Map<String, List<List<String>>>>? {
+            actualizarVariables()
+            val docRef = db.collection("usuarios").document(emailEncriptado)
+
+            return try {
+                val document = docRef.get().await()
+                if (document.exists()) {
+                    val palabrasList = document.data?.get("palabras") as? List<Map<String, List<Map<String, String>>>>
+                    val result = palabrasList?.map { idiomaMap ->
+                        idiomaMap.mapValues { entry ->
+                            entry.value.map { listOf(it["palabra"] ?: "", it["traduccion"] ?: "") }
+                        }
+                    }
+                    println("Palabras: $result")
+                    result
+                } else {
+                    println("No such document")
+                    null
+                }
+            } catch (exception: Exception) {
+                println("Error getting documents: $exception")
+                null
+            }
+        }
+
+
 
 
         suspend fun getUltimoTiempo(): Timestamp? {
@@ -461,6 +488,32 @@ class UtilsDB {
                     Log.w(ContentValues.TAG, "Error al actualizar el idioma", e)
                 }
         }
+
+        fun setPalabra(palabras: List<Map<String, List<List<String>>>>) {
+            actualizarVariables()
+            val palabrasFirestore = palabras.map { idiomaMap ->
+                idiomaMap.mapValues { entry ->
+                    entry.value.map { hashMapOf("palabra" to it[0], "traduccion" to it[1]) }
+                }
+            }
+
+            val data = hashMapOf(
+                "palabras" to palabrasFirestore
+            )
+
+            usersCollection.document(emailEncriptado).update(data as Map<String, Any>)
+                .addOnSuccessListener {
+                    Log.d(ContentValues.TAG, "Palabras actualizadas correctamente")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(ContentValues.TAG, "Error al actualizar las palabras", e)
+                }
+        }
+
+
+
+
+
 
 
         fun setPuntuacionDesafio(puntuaciones: List<Map<String, Number>>) {

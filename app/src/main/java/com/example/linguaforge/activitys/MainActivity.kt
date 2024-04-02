@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun irRecicler(view: View) {
-        val intent = Intent(this, ElegirActivity::class.java)
+        val intent = Intent(this, ElegirIdiomaActivity::class.java)
         startActivity(intent)
         finish()
     }
