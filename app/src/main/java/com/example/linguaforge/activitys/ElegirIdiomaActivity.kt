@@ -89,7 +89,7 @@ class ElegirIdiomaActivity : AppCompatActivity() {
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
         val intent = Intent(this, PalabrasActivity::class.java)
-        intent.putExtra("idioma1", "ES")
+        intent.putExtra("idioma1",  Utils.getCountryCode(item.idioma1))
         intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
         finish()
