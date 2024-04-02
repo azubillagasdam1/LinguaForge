@@ -25,34 +25,44 @@ class PalabrasActivity : AppCompatActivity() {
     private var anadirButton: Button? = null
     private var recyclerView: RecyclerView? = null
     private lateinit var itemPalabra: List<ItemPalabra>
-    val idioma1 = intent.getStringExtra("idioma1")
-    val idioma2 = intent.getStringExtra("idioma2")
+    private lateinit var idioma1: String
+    private lateinit var idioma2: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_palabras)
+
+        // Ahora obtenemos los valores del Intent dentro de onCreate
+        idioma1 = intent.getStringExtra("idioma1") ?: ""
+        idioma2 = intent.getStringExtra("idioma2") ?: ""
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         anadirButton = findViewById<Button>(R.id.anadirBotton)
         crearRecyclerView(this)
-
-
-
     }
 
     private fun crearRecyclerView(context: Context) = runBlocking {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
+
         var clave = idioma1 + "-" + idioma2
-        val idiomasList = UtilsDB.getIdiomas() ?: listOf()
-        itemPalabra = idiomasList.map { idiomaMap ->
+        println(clave.toString())
+        val palabrasList = UtilsDB.getPalabras() ?: listOf()
+
+        // Asumiendo que `clave` es la clave para buscar en el mapa de idiomas.
+        val listaDePalabras = palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
+
+        itemPalabra = listaDePalabras.map {
             ItemPalabra(
-                idiomaMap["titulo"] ?: "Título predeterminado",
-                idiomaMap["subtitulo"] ?: "Subtítulo predeterminado",
-                idiomaMap["idioma"] ?: "Idioma predeterminado"
+                it[0], // Palabra
+                it[1], // Traducción
+                clave   // Clave del idioma
             )
         }
 

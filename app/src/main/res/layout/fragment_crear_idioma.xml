@@ -4,6 +4,15 @@
     android:background="@drawable/rounded_background"
     android:padding="20dp">
 
+
+    <!-- idioma1 -->
+    <Spinner
+        android:id="@+id/idioma1Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Espanol"
+        android:textSize="24sp" />
     <!-- Título -->
     <TextView
         android:id="@+id/textViewTitulo"

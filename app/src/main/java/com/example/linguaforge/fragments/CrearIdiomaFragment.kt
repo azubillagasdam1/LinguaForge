@@ -18,13 +18,6 @@ import com.example.linguaforge.models.utils.Utils
 
 class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment() {
 
-    private val idiomas = arrayOf(
-        "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
-        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
-        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
-        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
-        "Turkish"
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,26 +25,50 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_crear_idioma, container, false)
-        val spinnerIdioma = view.findViewById<Spinner>(R.id.spinnerIdioma)
+        val spinnerIdioma1 = view.findViewById<Spinner>(R.id.idioma1Spinner)
+        val spinnerIdioma2 = view.findViewById<Spinner>(R.id.spinnerIdioma)
         val tituloEditText = view.findViewById<EditText>(R.id.tituloEditText)
         val subtituloEditText = view.findViewById<EditText>(R.id.subtituloEditText)
         val banderaTextView = view.findViewById<TextView>(R.id.banderaTextView) // Encuentra el TextView
         val crearButton = view.findViewById<Button>(R.id.crearButton) // Encuentra el botón de crear
-        var idiomaSeleccionado:String? = null
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, idiomas)
-        spinnerIdioma.adapter = adapter
+        var idioma1Seleccionado:String? = null
+        var idioma2Seleccionado:String? = null
+
+
+        val adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomasConBanderas.values.toList())
+        spinnerIdioma1.adapter = adapter1
+// Establecer el listener para el spinner
+        spinnerIdioma1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Aquí obtenemos el nombre del idioma basado en la posición del emoji seleccionado
+                idioma1Seleccionado = Utils.idiomasConBanderas.keys.toList()[position]
+                // Aunque mostramos emojis en el spinner, guardamos el nombre del idioma correspondiente
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Opcional: Manejar cualquier caso donde no se selecciona ningún elemento
+            }
+        }
+
+
+
+
+
+
+        val adapter2 =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomas)
+        spinnerIdioma2.adapter = adapter2
         // Establecer el listener para el spinner
-        spinnerIdioma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinnerIdioma2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                 idiomaSeleccionado = idiomas[position]  // Obtiene el idioma seleccionado
+                 idioma2Seleccionado = Utils.idiomas[position]  // Obtiene el idioma seleccionado
                 // Obtén el código del país para el idioma y luego el emoji de la bandera
-                val countryCode = Utils.getCountryCode(idiomaSeleccionado!!)
+                val countryCode = Utils.getCountryCode(idioma2Seleccionado!!)
                 val flagEmoji = Utils.getFlagEmoji(countryCode)
                 banderaTextView.text = flagEmoji // Actualiza el texto del TextView con el emoji
             }
@@ -61,8 +78,8 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         }
 
         crearButton.setOnClickListener {
-            Utils.anadirIdioma(tituloEditText.text.toString(),subtituloEditText.text.toString(),idiomaSeleccionado!!)
-            Utils.anadirPalabra("enge-es","hello","hola")
+            Utils.anadirIdioma(tituloEditText.text.toString(),subtituloEditText.text.toString(),idioma1Seleccionado!!,idioma2Seleccionado!!)
+            Utils.anadirPalabra("ES-PL","hello","hola")
             Utils.recargarActividad(contextoElegirActivity)
             closeFragment()
         }

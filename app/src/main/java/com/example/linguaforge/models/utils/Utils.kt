@@ -10,6 +10,44 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguag
 import kotlinx.coroutines.runBlocking
 
 object Utils {
+     val idiomas = arrayOf(
+        "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
+        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
+        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
+        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
+        "Turkish"
+    )
+
+    val idiomasConBanderas = mapOf(
+        "English" to "🇬🇧",
+        "Welsh" to "🇬🇧", // Welsh no tiene su propio emoji de bandera, así que utilizo el del Reino Unido
+        "Hindi" to "🇮🇳",
+        "Urdu" to "🇵🇰",
+        "Afrikaans" to "🇿🇦",
+        "Arabic" to "🇸🇦",
+        "Belarusian" to "🇧🇾",
+        "Bulgarian" to "🇧🇬",
+        "Bengali" to "🇧🇩",
+        "Catalan" to "🇪🇸", // Catalán se habla principalmente en España, pero no tiene su propia bandera emoji
+        "Czech" to "🇨🇿",
+        "Danish" to "🇩🇰",
+        "Dutch" to "🇳🇱",
+        "Finnish" to "🇫🇮",
+        "French" to "🇫🇷",
+        "German" to "🇩🇪",
+        "Greek" to "🇬🇷",
+        "Hungarian" to "🇭🇺",
+        "Italian" to "🇮🇹",
+        "Japanese" to "🇯🇵",
+        "Korean" to "🇰🇷",
+        "Norwegian" to "🇳🇴",
+        "Polish" to "🇵🇱",
+        "Portuguese" to "🇵🇹",
+        "Russian" to "🇷🇺",
+        "Spanish" to "🇪🇸",
+        "Swedish" to "🇸🇪",
+        "Turkish" to "🇹🇷"
+    )
 
     fun getFlagEmoji(countryCode: String): String {
         if (countryCode.isEmpty() || countryCode.length != 2) {
@@ -103,7 +141,7 @@ object Utils {
         activity.finishAffinity()
     }
 
-    fun anadirIdioma(titulo:String, subtitulo:String, idioma: String) = runBlocking {
+    fun anadirIdioma(titulo:String, subtitulo:String, idioma1: String, idioma2: String) = runBlocking {
         // Suponiendo que getIdiomas ahora devuelve List<Map<String, String>>?
         var idiomas: MutableList<Map<String, String>>? = UtilsDB.getIdiomas()?.toMutableList()
         if (idiomas == null) {
@@ -112,7 +150,8 @@ object Utils {
         val nuevoIdioma = mapOf(
             "titulo" to titulo,
             "subtitulo" to subtitulo,
-            "idioma" to idioma
+            "idiomaOrigen" to idioma1,
+            "idiomaResultado" to idioma2
         )
         idiomas.add(nuevoIdioma)
         UtilsDB.setIdioma(idiomas)

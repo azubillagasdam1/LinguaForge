@@ -29,6 +29,9 @@
             android:name=".activitys.ElegirIdiomaActivity"
             android:exported="false" />
         <activity
+            android:name=".activitys.PalabrasActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.MainActivity"
             android:exported="false">
 

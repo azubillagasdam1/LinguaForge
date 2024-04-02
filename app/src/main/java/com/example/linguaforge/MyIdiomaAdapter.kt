@@ -22,7 +22,9 @@ class MyIdiomaAdapter(private val itemIdiomas: List<ItemIdioma>, private val lis
         fun bind(itemIdioma: ItemIdioma, listener: OnItemClickListener, position: Int) {
             title.text = itemIdioma.title
             subtitle.text = itemIdioma.subtitle
-            flag.text = Utils.getFlagEmoji(Utils.getCountryCode(itemIdioma.country))
+            println("idiomaAdapter1:" +  itemIdioma.idioma1)
+            println("idiomaAdapter2:" +  itemIdioma.idioma2)
+            flag.text = Utils.getFlagEmoji(Utils.getCountryCode(itemIdioma.idioma2))
             itemView.setOnClickListener { listener.onItemClick(position) }
             itemView.setOnLongClickListener {
                 listener.onItemLongClick(position)
@@ -45,4 +47,4 @@ class MyIdiomaAdapter(private val itemIdiomas: List<ItemIdioma>, private val lis
     override fun getItemCount() = itemIdiomas.size
 }
 
-data class ItemIdioma(val title: String, val subtitle: String, val country: String)
+data class ItemIdioma(val title: String, val subtitle: String, val idioma1: String, val idioma2: String)

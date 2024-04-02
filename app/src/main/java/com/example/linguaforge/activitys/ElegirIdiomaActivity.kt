@@ -31,7 +31,6 @@ class ElegirIdiomaActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private lateinit var itemIdiomas: List<ItemIdioma>
 
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,7 @@ class ElegirIdiomaActivity : AppCompatActivity() {
         }
         crearRecyclerView(this)
 
-        anadirButton = findViewById<Button>(R.id.anadirBotton)
+        anadirButton = findViewById(R.id.anadirBotton)
         anadirButton?.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> true
@@ -53,6 +52,7 @@ class ElegirIdiomaActivity : AppCompatActivity() {
                     CrearIdiomaFragment(this).show(fragmentManager, "CrearIdiomaFragment")
                     true
                 }
+
                 else -> false
             }
         }
@@ -67,28 +67,30 @@ class ElegirIdiomaActivity : AppCompatActivity() {
             ItemIdioma(
                 idiomaMap["titulo"] ?: "Título predeterminado",
                 idiomaMap["subtitulo"] ?: "Subtítulo predeterminado",
-                idiomaMap["idioma"] ?: "Idioma predeterminado"
+                idiomaMap["idiomaOrigen"] ?: "Idioma1 predeterminado",
+                idiomaMap["idiomaResultado"] ?: "Idioma2 predeterminado"
             )
         }
 
-        recyclerView?.adapter = MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                onItemClicked(position)
-            }
+        recyclerView?.adapter =
+            MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    onItemClicked(position)
+                }
 
-            override fun onItemLongClick(position: Int) {
-                onItemLongClicked(position)
-            }
-        })
+                override fun onItemLongClick(position: Int) {
+                    onItemLongClicked(position)
+                }
+            })
     }
 
     private fun onItemClicked(position: Int) {
         val item = itemIdiomas[position]
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PalabrasActivity::class.java)
         intent.putExtra("idioma1", "ES")
-        intent.putExtra("idioma2", item.country)
+        intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
         finish()
     }
@@ -103,12 +105,12 @@ class ElegirIdiomaActivity : AppCompatActivity() {
             .setTitle("Eliminar biblioteca")
             .setMessage("¿Desea eliminar esta biblioteca: ${item.title}?")
             .setPositiveButton("Eliminar") { dialog, which ->
-       //SI
+                //SI
                 Toast.makeText(this, "${item.title} eliminado", Toast.LENGTH_SHORT).show()
                 Utils.eliminarIdioma(position)
                 Utils.recargarActividad(this)
             }
-                //NO
+            //NO
             .setNegativeButton("Cancelar", null)
             .show()
     }
