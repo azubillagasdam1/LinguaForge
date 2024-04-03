@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         // Comprobar si el usuario ya está autenticado con Firebase al iniciar la actividad
         if (FirebaseDB.getInstanceFirebase().currentUser != null) {
             // El usuario ya está autenticado, redirigir a ElegirActivity
-            val intent = Intent(this, ElegirIdiomaActivity::class.java)
+            val intent = Intent(this, IdiomaActivity::class.java)
             startActivity(intent)
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
@@ -181,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                         .addOnSuccessListener { documents ->
                             if (!documents.isEmpty) {
 
-                                val intent = Intent(this, ElegirIdiomaActivity::class.java)
+                                val intent = Intent(this, IdiomaActivity::class.java)
                                 startActivity(intent)
                                 finish()
                                 mediaPlayer.start()
@@ -200,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
 
 
                                 UserDao.addUser(user)
-                                val intent = Intent(this, ElegirIdiomaActivity::class.java)
+                                val intent = Intent(this, IdiomaActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }

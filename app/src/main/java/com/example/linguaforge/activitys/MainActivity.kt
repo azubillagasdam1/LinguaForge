@@ -28,6 +28,10 @@ class MainActivity : AppCompatActivity() {
     private var fromLanguageCode = 0
     private var toLanguageCode = 0
 
+    private lateinit var idioma1: String
+    private lateinit var idioma2: String
+    private lateinit var clave: String
+
     private var fromLanguages = arrayOf(
             "From", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
             "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
@@ -55,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        idioma1 = intent.getStringExtra("idioma1") ?: ""
+        idioma2 = intent.getStringExtra("idioma2") ?: ""
+        clave = intent.getStringExtra("clave") ?: ""
+
 
         fromSpinner = findViewById(R.id.idFromSpinner)
         toSpinner = findViewById(R.id.idToSpinner)
@@ -160,7 +168,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun irRecicler(view: View) {
-        val intent = Intent(this, ElegirIdiomaActivity::class.java)
+        val intent = Intent(this, IdiomaActivity::class.java)
         startActivity(intent)
         finish()
     }

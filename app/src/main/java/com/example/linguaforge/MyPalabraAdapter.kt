@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.linguaforge.models.utils.Utils
 
 class MyPalabraAdapter(private val itemPalabra: List<ItemPalabra>, private val listener: OnItemClickListener) : RecyclerView.Adapter<MyPalabraAdapter.ViewHolder>() {
 
@@ -15,13 +14,13 @@ class MyPalabraAdapter(private val itemPalabra: List<ItemPalabra>, private val l
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val original: TextView = view.findViewById(R.id.originalTextView)
-        val traduccion: TextView = view.findViewById(R.id.traduccionTextView)
+        val originalTextView: TextView = view.findViewById(R.id.originalTextView)
+        val traduccionTextView: TextView = view.findViewById(R.id.traduccionTextView)
 
 
         fun bind(ItemPalabra: ItemPalabra, listener: MyPalabraAdapter.OnItemClickListener, position: Int) {
-            original.text = ItemPalabra.original
-            traduccion.text = ItemPalabra.traduccion
+            originalTextView.text = ItemPalabra.original
+            traduccionTextView.text = ItemPalabra.traduccion
             itemView.setOnClickListener { listener.onItemClick(position) }
 
             // Establece un OnLongClickListener para detectar cuando se mantiene presionado

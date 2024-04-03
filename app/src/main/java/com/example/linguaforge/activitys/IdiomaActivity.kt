@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemIdioma
-import com.example.linguaforge.ItemPalabra
 import com.example.linguaforge.MyIdiomaAdapter
 import com.example.linguaforge.R
 import com.example.linguaforge.fragments.CrearIdiomaFragment
@@ -26,7 +25,7 @@ import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
 import kotlinx.coroutines.runBlocking
 
-class ElegirIdiomaActivity : AppCompatActivity() {
+class IdiomaActivity : AppCompatActivity() {
     private var anadirButton: Button? = null
     private var recyclerView: RecyclerView? = null
     private lateinit var itemIdiomas: List<ItemIdioma>

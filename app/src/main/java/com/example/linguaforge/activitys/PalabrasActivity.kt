@@ -1,9 +1,11 @@
 package com.example.linguaforge.activitys
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -14,10 +16,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemPalabra
-import com.example.linguaforge.MyIdiomaAdapter
 import com.example.linguaforge.MyPalabraAdapter
 import com.example.linguaforge.R
+import com.example.linguaforge.fragments.CrearIdiomaFragment
 import com.example.linguaforge.models.db.FirebaseDB
+import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
 import kotlinx.coroutines.runBlocking
 
@@ -28,6 +31,7 @@ class PalabrasActivity : AppCompatActivity() {
     private lateinit var idioma1: String
     private lateinit var idioma2: String
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,17 +46,36 @@ class PalabrasActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        anadirButton = findViewById<Button>(R.id.anadirBotton)
         crearRecyclerView(this)
+
+        anadirButton = findViewById(R.id.anadirBotton)
+        anadirButton?.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> true
+                MotionEvent.ACTION_UP -> {
+                    var clave = idioma1 + "-" + idioma2
+                    val fragmentManager = supportFragmentManager
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("idioma1",  Utils.getCountryCode(idioma1))
+                    intent.putExtra("idioma2", Utils.getCountryCode(idioma2))
+                    intent.putExtra("clave", Utils.getCountryCode(clave))
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
+
+
 
     private fun crearRecyclerView(context: Context) = runBlocking {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         var clave = idioma1 + "-" + idioma2
-        println(clave.toString())
+        println(clave)
         val palabrasList = UtilsDB.getPalabras() ?: listOf()
 
         // Asumiendo que `clave` es la clave para buscar en el mapa de idiomas.
@@ -60,9 +83,10 @@ class PalabrasActivity : AppCompatActivity() {
 
         itemPalabra = listaDePalabras.map {
             ItemPalabra(
-                it[0], // Palabra
-                it[1], // Traducción
-                clave   // Clave del idioma
+                clave,
+                        it[0], // Palabra
+                it[1] // Traducción
+                  // Clave del idioma
             )
         }
 
@@ -80,7 +104,7 @@ class PalabrasActivity : AppCompatActivity() {
 
     private fun onItemClicked(position: Int) {
         val item = itemPalabra[position]
-        Toast.makeText(this, "Tocado: ${item.idioma}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Tocado: ${item.traduccion}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
 
     }
