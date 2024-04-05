@@ -14,6 +14,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemIdioma
@@ -23,6 +24,7 @@ import com.example.linguaforge.fragments.CrearIdiomaFragment
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class IdiomaActivity : AppCompatActivity() {
@@ -57,22 +59,23 @@ class IdiomaActivity : AppCompatActivity() {
         }
     }
 
-    private fun crearRecyclerView(context: Context) = runBlocking {
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+    private fun crearRecyclerView(context: Context) {
+        lifecycleScope.launch {
+            // Mueve la lógica de inicialización de RecyclerView aquí
+            recyclerView = findViewById(R.id.recyclerView)
+            recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        val idiomasList = UtilsDB.getIdiomas() ?: listOf()
-        itemIdiomas = idiomasList.map { idiomaMap ->
-            ItemIdioma(
-                idiomaMap["titulo"] ?: "Título predeterminado",
-                idiomaMap["subtitulo"] ?: "Subtítulo predeterminado",
-                idiomaMap["idiomaOrigen"] ?: "Idioma1 predeterminado",
-                idiomaMap["idiomaResultado"] ?: "Idioma2 predeterminado"
-            )
-        }
+            val idiomasList = UtilsDB.getIdiomas() ?: listOf()
+            itemIdiomas = idiomasList.map { idiomaMap ->
+                ItemIdioma(
+                    idiomaMap["titulo"] ?: "Título predeterminado",
+                    idiomaMap["subtitulo"] ?: "Subtítulo predeterminado",
+                    idiomaMap["idiomaOrigen"] ?: "Idioma1 predeterminado",
+                    idiomaMap["idiomaResultado"] ?: "Idioma2 predeterminado"
+                )
+            }
 
-        recyclerView?.adapter =
-            MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
+            recyclerView?.adapter = MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     onItemClicked(position)
                 }
@@ -81,8 +84,8 @@ class IdiomaActivity : AppCompatActivity() {
                     onItemLongClicked(position)
                 }
             })
+        }
     }
-
     private fun onItemClicked(position: Int) {
         val item = itemIdiomas[position]
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
