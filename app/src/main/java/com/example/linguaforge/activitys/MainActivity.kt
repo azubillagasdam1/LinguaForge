@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -28,25 +27,12 @@ class MainActivity : AppCompatActivity() {
     private var fromLanguageCode = 0
     private var toLanguageCode = 0
 
-    private var fromLanguages = arrayOf(
-            "From", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
-            "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
-            "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
-            "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
-            "Turkish"
-    )
-    private var toLanguages = arrayOf(
-        "To", "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
-        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
-        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
-        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
-        "Turkish"
-    )
+    private var idioma1 = ""
+    private var idioma2 = ""
+    private var clave = ""
 
-
-
-    private var fromSpinner: Spinner? = null
-    private var toSpinner: Spinner? = null
+    private var idioma1TextView: TextView? = null
+    private var idioma2TextView: TextView? = null
     private var sourceText: TextInputEditText? = null
     private var micIV: ImageView? = null
     private var translateBtn: MaterialButton? = null
@@ -55,45 +41,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        idioma1 = intent.getStringExtra("idioma1") ?: ""
+        idioma2 = intent.getStringExtra("idioma2") ?: ""
+        clave = intent.getStringExtra("clave") ?: ""
 
-        fromSpinner = findViewById(R.id.idFromSpinner)
-        toSpinner = findViewById(R.id.idToSpinner)
+        idioma1TextView = findViewById(R.id.idioma1TextView)
+        idioma2TextView = findViewById(R.id.idioma2TextView)
         sourceText = findViewById(R.id.idEditSource)
         micIV = findViewById(R.id.idIVMic)
         translateBtn = findViewById(R.id.idBtnTranslation)
         translateTV = findViewById(R.id.idTranslatedTV)
 
-        setupSpinners()
-    }
 
-    private fun setupSpinners() {
-        val fromAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, fromLanguages)
-        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        fromSpinner?.adapter = fromAdapter
+        setIdiomas()
 
-        val toAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, toLanguages)
-        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        toSpinner?.adapter = toAdapter
 
-        fromSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                fromLanguageCode = Utils.getLanguageFirebaseCode(fromLanguages[position])
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Opcional
-            }
-        }
 
-        toSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                toLanguageCode = Utils.getLanguageFirebaseCode(toLanguages[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Opcional
-            }
-        }
 
         micIV?.setOnClickListener {
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -122,6 +86,13 @@ class MainActivity : AppCompatActivity() {
                 translateText(fromLanguageCode, toLanguageCode, sourceText?.text.toString())
             }
         }
+    }
+
+    private fun setIdiomas() {
+        fromLanguageCode = Utils.getLanguageFirebaseCode(Utils.getLanguageByCountryCode(idioma1))
+        toLanguageCode = Utils.getLanguageFirebaseCode(Utils.getLanguageByCountryCode(idioma2))
+        idioma1TextView?.text = Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma1)))
+        idioma2TextView?.text = Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma2)))
     }
 
     private fun translateText(fromLanguageCode: Int, toLanguageCode: Int, source: String) {

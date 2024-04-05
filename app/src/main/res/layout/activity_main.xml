@@ -52,11 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <Spinner
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/idFromSpinner"
+                android:id="@+id/idioma1TextView"
                 android:layout_margin="3dp"
                 android:padding="3dp"
                 android:layout_gravity="center" />
@@ -65,14 +65,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/exchange"
+                android:src="@drawable/flecha_derecha"
                 android:layout_gravity="center" />
 
-            <Spinner
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/idToSpinner"
+                android:id="@+id/idioma2TextView"
                 android:layout_margin="3dp"
                 android:padding="3dp"
                 android:layout_gravity="center" />

@@ -132,7 +132,40 @@ object Utils {
             else -> FirebaseTranslateLanguage.EN // Default or consider throwing an error
         }
     }
-     fun recargarActividad(context: Context) {
+
+    fun getLanguageByCountryCode(countryCode: String): String {
+        return when (countryCode) {
+            "GB" -> "English" // Asumiendo Inglés por defecto para el Reino Unido
+            "IN" -> "Hindi"
+            "PK" -> "Urdu"
+            "ZA" -> "Afrikaans"
+            "SA" -> "Arabic"
+            "BY" -> "Belarusian"
+            "BG" -> "Bulgarian"
+            "BD" -> "Bengali"
+            "ES" -> "Catalan" // Asumiendo Catalán por defecto para España
+            "CZ" -> "Czech"
+            "DK" -> "Danish"
+            "NL" -> "Dutch"
+            "FI" -> "Finnish"
+            "FR" -> "French"
+            "DE" -> "German"
+            "GR" -> "Greek"
+            "HU" -> "Hungarian"
+            "IT" -> "Italian"
+            "JP" -> "Japanese"
+            "KR" -> "Korean"
+            "NO" -> "Norwegian"
+            "PL" -> "Polish"
+            "PT" -> "Portuguese"
+            "RU" -> "Russian"
+            "SE" -> "Swedish"
+            "TR" -> "Turkish"
+            else -> "" // Manejar caso por defecto o desconocido
+        }
+    }
+
+    fun recargarActividad(context: Context) {
          if (context is AppCompatActivity) {
              (context as AppCompatActivity).recreate()
          }

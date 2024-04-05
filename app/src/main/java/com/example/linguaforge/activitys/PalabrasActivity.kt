@@ -56,9 +56,9 @@ class PalabrasActivity : AppCompatActivity() {
                     var clave = idioma1 + "-" + idioma2
                     val fragmentManager = supportFragmentManager
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("idioma1",  Utils.getCountryCode(idioma1))
-                    intent.putExtra("idioma2", Utils.getCountryCode(idioma2))
-                    intent.putExtra("clave", Utils.getCountryCode(clave))
+                    intent.putExtra("idioma1",  idioma1)
+                    intent.putExtra("idioma2", idioma2)
+                    intent.putExtra("clave", clave)
                     startActivity(intent)
                     true
                 }
