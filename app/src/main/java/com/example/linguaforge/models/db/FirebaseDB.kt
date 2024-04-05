@@ -3,7 +3,7 @@ package com.example.linguaforge.models.db
 import android.annotation.SuppressLint
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+
 
 /**
  * Clase de utilidad para obtener instancias de Firebase Firestore, Auth y Storage.
@@ -15,7 +15,6 @@ class FirebaseDB {
         @Volatile
         private var INSTANCESTORE: FirebaseFirestore? = null
         private var INSTANCEAUTH: FirebaseAuth? = null
-        private var INSTANCESTORAGE: FirebaseStorage? = null
 
         /**
          * Obtiene y devuelve la instancia única de Firebase Firestore.
@@ -48,13 +47,7 @@ class FirebaseDB {
          *
          * @return Instancia de FirebaseStorage.
          */
-        fun getInstanceStorage(): FirebaseStorage {
-            synchronized(this) {
-                if (INSTANCESTORAGE == null)
-                    INSTANCESTORAGE = FirebaseStorage.getInstance()
-                return INSTANCESTORAGE as FirebaseStorage
-            }
-        }
+
         fun signOut() {
             getInstanceFirebase().signOut()
         }

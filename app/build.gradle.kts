@@ -44,27 +44,38 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    implementation(libs.play.services.auth)
+
+
+
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.play.services.auth)
-    implementation(libs.firebase.firestore.ktx)
+
+
     //firebaseDefault
 
-    implementation("com.google.firebase:firebase-analytics")
 
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-ml-natural-language:22.0.0")
     implementation("com.google.firebase:firebase-ml-natural-language-translate-model:20.0.8")
     implementation("com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.7")
 
-
-    implementation("com.google.firebase:firebase-firestore:21.1.1") // Usa la misma versión de Firebase Core
+    implementation("com.google.firebase:firebase-firestore:21.1.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
-    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
-
 
 }
+
+
+
+
+
+
+
+    //implementation("com.firebaseui:firebase-ui-storage:7.2.0") //da error con el traductor
