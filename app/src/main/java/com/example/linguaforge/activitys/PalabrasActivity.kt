@@ -70,7 +70,11 @@ class PalabrasActivity : AppCompatActivity() {
             }
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        // Este método se llama cada vez que la actividad entra en el primer plano.
+        crearRecyclerView(this)
+    }
 
 
     private fun crearRecyclerView(context: Context) = runBlocking {
@@ -139,4 +143,5 @@ class PalabrasActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 }

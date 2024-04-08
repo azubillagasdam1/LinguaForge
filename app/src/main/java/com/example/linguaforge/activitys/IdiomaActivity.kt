@@ -131,5 +131,12 @@ class IdiomaActivity : AppCompatActivity() {
             fragment.dismiss()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // Este método se llama cada vez que la actividad entra en el primer plano.
+        crearRecyclerView(this)
+    }
+
 }
 
