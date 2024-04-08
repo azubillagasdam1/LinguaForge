@@ -1,17 +1,29 @@
 package com.example.linguaforge.activitys
 
+import UserDao
+
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.example.linguaforge.R
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.entity.User
@@ -24,12 +36,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.GoogleAuthProvider
 import java.time.LocalDateTime
+import java.util.Random
+
 
 class LoginActivity : AppCompatActivity() {
     private val TAG = "LoginActivity"
     private val RC_SIGN_IN = 9001
     private lateinit var mediaPlayer: MediaPlayer
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,6 +63,121 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
+        animacionFondo()
+
+
+        val logoImageView = findViewById<ImageView>(R.id.logoImageView)
+
+        logoImageView.alpha = 0f
+        logoImageView.scaleX = 2f
+        logoImageView.scaleY = 2f
+
+        val fadeInAnimator = ObjectAnimator.ofFloat(logoImageView, "alpha", 0f, 1f).apply {
+            duration = 5000
+        }
+
+        val scaleXAnimator = ObjectAnimator.ofFloat(logoImageView, "scaleX", 2f, 1f).apply {
+            duration = 3000
+        }
+
+        val scaleYAnimator = ObjectAnimator.ofFloat(logoImageView, "scaleY", 2f, 1f).apply {
+            duration = 3000
+        }
+
+        val titleTextView = findViewById<TextView>(R.id.titleTextView)
+
+        titleTextView.alpha = 0f
+        titleTextView.scaleX = 2f
+        titleTextView.scaleY = 2f
+
+        val fadeInAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "alpha", 0f, 1f).apply {
+            duration = 5000
+        }
+
+        val scaleXAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "scaleX", 2f, 1f).apply {
+            duration = 3000
+        }
+
+        val scaleYAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "scaleY", 2f, 1f).apply {
+            duration = 3000
+        }
+
+        AnimatorSet().apply {
+            playTogether(fadeInAnimatorTitle, scaleXAnimatorTitle, scaleYAnimatorTitle)
+            start()
+        }
+
+
+        AnimatorSet().apply {
+            playTogether(fadeInAnimator, scaleXAnimator, scaleYAnimator)
+            start()
+        }
+        var subtituloTextView = findViewById<TextView>(R.id.subtitleTextView)
+        var googleSignInImageView = findViewById<ImageView>(R.id.googleSignInImageView)
+        var flechaCurvaTextView = findViewById<ImageView>(R.id.flechaCurvaTextView)
+        var iniciaSesionTextview = findViewById<TextView>(R.id.iniciaSesionTextview)
+
+        googleSignInImageView.setAlpha(0f)
+        flechaCurvaTextView.setAlpha(0f)
+        iniciaSesionTextview.setAlpha(0f)
+
+        YoYo.with(Techniques.FadeIn).duration(5000).playOn(googleSignInImageView)
+
+        subtituloTextView.alpha = 0f
+        flechaCurvaTextView.alpha = 0f
+        iniciaSesionTextview.alpha = 0f
+
+
+// Animación para iniciaSesionTextview con retraso
+        ObjectAnimator.ofFloat(subtituloTextView, "alpha", 0f, 1f).apply {
+            duration = 5000 // Duración de la animación
+            startDelay = 2000 // Retraso antes de iniciar la animación
+            start() // Iniciar la animación
+        }
+
+        ObjectAnimator.ofFloat(flechaCurvaTextView, "alpha", 0f, 1f).apply {
+            duration = 5000 // Duración de la animación en milisegundos
+            startDelay = 5000 // Retraso antes de iniciar la animación
+            start() // Iniciar la animación
+        }
+
+// Animación para iniciaSesionTextview con retraso
+        ObjectAnimator.ofFloat(iniciaSesionTextview, "alpha", 0f, 1f).apply {
+            duration = 5000 // Duración de la animación
+            startDelay = 5000 // Retraso antes de iniciar la animación
+            start() // Iniciar la animación
+        }
+
+
+
+
+        googleSignInImageView.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Establecer el punto de pivote en el centro y escalar la vista.
+                    v.pivotX = v.width / 2f
+                    v.pivotY = v.height / 2f
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).start()
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    // Restaurar la escala de la vista.
+                    v.pivotX = v.width / 2f
+                    v.pivotY = v.height / 2f
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        // Aquí ejecutas la lógica de autenticación cuando el usuario suelta la vista.
+                        // Suponiendo que tienes una función que inicia la autenticación con Google.
+                        iniciarSesionGoogle()
+                    }
+
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
 
@@ -73,7 +203,7 @@ class LoginActivity : AppCompatActivity() {
      *
      * @param view Vista del botón.
      */
-    fun iniciarSesionGoogle(view: View?) {
+    fun iniciarSesionGoogle() {
         try {
             signInWithGoogle()
         } catch (e: Exception) {
@@ -209,5 +339,50 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    fun animacionFondo() {
+        val fondos = listOf(
+            findViewById<ImageView>(R.id.fondoletras1),
+            findViewById<ImageView>(R.id.fondoletras2),
+            findViewById<ImageView>(R.id.fondoletras3),
+            findViewById<ImageView>(R.id.fondoletras4)
+        )
 
+        val random = Random()
+
+        fondos.forEachIndexed { index, fondo ->
+            // Establecer la opacidad inicial a 0
+            fondo.alpha = 0f
+            animarAparecer(fondo, random, index * 1000L) // Comienza con la animación de aparición.
+        }
+    }
+
+    fun animarFondo(fondo: ImageView, random: Random, startDelay: Long) {
+        val duracionDesvanecer = 1000L + random.nextInt(2000)
+
+        ObjectAnimator.ofFloat(fondo, "alpha", 1f, 0f).apply {
+            duration = duracionDesvanecer
+            this.startDelay = startDelay
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animarAparecer(fondo, random, 0) // Sin desfase para la animación de aparición.
+                }
+            })
+            start()
+        }
+    }
+
+    fun animarAparecer(fondo: ImageView, random: Random, startDelay: Long) {
+        val duracionAparecer = 5000L + random.nextInt(2000)
+
+        ObjectAnimator.ofFloat(fondo, "alpha", 0f, 1f).apply {
+            duration = duracionAparecer
+            this.startDelay = startDelay
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animarFondo(fondo, random, 0) // Al finalizar, comienza de nuevo sin desfase.
+                }
+            })
+            start()
+        }
+    }
 }

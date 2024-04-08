@@ -4,7 +4,11 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.example.linguaforge.ItemIdioma
 import com.example.linguaforge.MyIdiomaAdapter
 import com.example.linguaforge.R
@@ -47,16 +53,23 @@ class IdiomaActivity : AppCompatActivity() {
         anadirButton = findViewById(R.id.anadirBotton)
         anadirButton?.setOnTouchListener { v, event ->
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> true
-                MotionEvent.ACTION_UP -> {
-                    val fragmentManager = supportFragmentManager
-                    CrearIdiomaFragment(this).show(fragmentManager, "CrearIdiomaFragment")
+                MotionEvent.ACTION_DOWN -> {
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).start()
                     true
                 }
-
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        val fragmentManager = supportFragmentManager
+                        CrearIdiomaFragment(this).show(fragmentManager, "CrearIdiomaFragment")
+                    }
+                    true
+                }
                 else -> false
             }
         }
+
+
     }
 
     private fun crearRecyclerView(context: Context) {
@@ -94,7 +107,7 @@ class IdiomaActivity : AppCompatActivity() {
         intent.putExtra("idioma1",  Utils.getCountryCode(item.idioma1))
         intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
-       
+
     }
 
     private fun onItemLongClicked(position: Int) {
@@ -102,20 +115,34 @@ class IdiomaActivity : AppCompatActivity() {
         Toast.makeText(this, "Mantenido: ${item.title}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue mantenido.")
 
-        // Crear un AlertDialog para confirmar la eliminación
-        AlertDialog.Builder(this)
+        val itemView = recyclerView?.findViewHolderForAdapterPosition(position)?.itemView
+        // Cambiar el fondo al drawable
+        itemView?.setBackgroundColor(Color.parseColor("#ADD8E6"))
+
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Eliminar biblioteca")
             .setMessage("¿Desea eliminar esta biblioteca: ${item.title}?")
             .setPositiveButton("Eliminar") { dialog, which ->
-                //SI
+                // SI
                 Toast.makeText(this, "${item.title} eliminado", Toast.LENGTH_SHORT).show()
                 Utils.eliminarIdioma(position)
                 Utils.recargarActividad(this)
             }
-            //NO
+            // NO
             .setNegativeButton("Cancelar", null)
-            .show()
+            .create()
+
+        dialog.setOnDismissListener {
+            // Restablece el fondo al original cuando el diálogo se cierra
+            itemView?.setBackgroundResource(R.drawable.style_item)
+        }
+
+        dialog.show()
     }
+
+
+
+
 
 
     fun cerrarSesion(view: View) {

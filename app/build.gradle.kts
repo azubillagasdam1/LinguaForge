@@ -70,7 +70,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.firebase:firebase-auth:22.3.1")
 
-}
+    //googleMaterials
+    implementation("com.google.android.material:material:1.4.0")
+
+    //animaciones
+    implementation("com.daimajia.androidanimations:library:2.4@aar")
+    }
 
 
 

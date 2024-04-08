@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemPalabra
 import com.example.linguaforge.MyPalabraAdapter
 import com.example.linguaforge.R
-import com.example.linguaforge.fragments.CrearIdiomaFragment
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
@@ -121,20 +121,32 @@ class PalabrasActivity : AppCompatActivity() {
         Toast.makeText(this, "Mantenido: ${item.traduccion}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue mantenido.")
 
+        val itemView = recyclerView?.findViewHolderForAdapterPosition(position)?.itemView
+        itemView?.setBackgroundColor(Color.parseColor("#ADD8E6")) // Cambiar el color cuando se mantiene presionado
+
         // Crear un AlertDialog para confirmar la eliminación
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Eliminar biblioteca")
             .setMessage("¿Desea eliminar esta biblioteca: ${item.traduccion}?")
             .setPositiveButton("Eliminar") { dialog, which ->
-                //SI
+                // SI
                 Toast.makeText(this, "${item.traduccion} eliminado", Toast.LENGTH_SHORT).show()
-                Utils.eliminarPalabra(clave,position)
+                Utils.eliminarPalabra(clave, position)
                 Utils.recargarActividad(this)
             }
-            //NO
+            // NO
             .setNegativeButton("Cancelar", null)
-            .show()
+            .create()
+
+        dialog.setOnDismissListener {
+            // Restablecer el drawable de fondo cuando el diálogo se cierra
+            itemView?.setBackgroundResource(R.drawable.style_item)
+        }
+
+        dialog.show()
     }
+
+
 
 
     fun cerrarSesion(view: View) {

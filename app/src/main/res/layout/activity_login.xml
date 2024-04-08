@@ -5,90 +5,136 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/degradado_fondo"
     tools:context=".activitys.LoginActivity">
+
+    <ImageView
+        android:id="@+id/fondoletras1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/fondoletras2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/fondoletras3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+
+        android:id="@+id/fondoletras4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/translate"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/translate"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LinguaForge"
-        android:textSize="24sp"
-        android:textColor="#000000"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/logoImageView"
+        android:text="LinguaForge"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+    <TextView
+        android:id="@+id/subtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Traducir para conectar, jugar para recordar"
+        android:textAlignment="center"
+        android:textColor="#555555"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-    android:hint="Usuario"
-    android:layout_marginTop="32dp"
-    android:layout_marginStart="32dp"
-    android:layout_marginEnd="32dp"
-    android:background="@drawable/edittext_background"
-    app:layout_constraintTop_toBottomOf="@id/titleTextView"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
-
-    <EditText
-        android:id="@+id/editTextContrasena"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-    android:hint="Contraseña"
-    android:inputType="textPassword"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="32dp"
-    android:layout_marginEnd="32dp"
-    android:background="@drawable/edittext_background"
-    app:layout_constraintTop_toBottomOf="@id/editTextEmail"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/googleSignInImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/google_login"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/editTextContrasena"
+
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_background"
+        android:padding="30dp"
+        android:src="@drawable/google_ico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
+        />
+
+
+    <ImageView
+        android:id="@+id/flechaCurvaTextView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:clickable="true"
         android:onClick="iniciarSesionGoogle"
+        android:src="@drawable/svg_flecha_curva"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:rotation="-45"
+        app:layout_constraintTop_toBottomOf="@id/googleSignInImageView" />
 
     <TextView
-        android:id="@+id/forgotPasswordTextView"
+        android:id="@+id/iniciaSesionTextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿Has olvidado tu contraseña?"
-        android:textColor="#0000FF"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/googleSignInImageView"
+        android:text="Haz click para iniciar"
+        android:textColor="#555555"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/flechaCurvaTextView" />
 
-    <TextView
-        android:id="@+id/registerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Regístrate"
-        android:textColor="#0000FF"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
