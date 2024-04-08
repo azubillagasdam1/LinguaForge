@@ -143,7 +143,7 @@ object Utils {
             "BY" -> "Belarusian"
             "BG" -> "Bulgarian"
             "BD" -> "Bengali"
-            "ES" -> "Catalan" // Asumiendo Catalán por defecto para España
+            "ES" -> "Spanish"
             "CZ" -> "Czech"
             "DK" -> "Danish"
             "NL" -> "Dutch"
@@ -241,9 +241,18 @@ object Utils {
                 // Obtiene la lista de listas de palabras asociada a la clave y la convierte en mutable
                 val listaDeListasPalabras = mapaEspecificoMutable[clave]?.toMutableList()
 
-                if (listaDeListasPalabras != null && position >= 0 && position < listaDeListasPalabras.size) {
-                    // Elimina la sublista en la posición especificada
-                    listaDeListasPalabras.removeAt(position)
+                if (listaDeListasPalabras != null) {
+                    if (position == 999999 && listaDeListasPalabras.isNotEmpty()) {
+                        // Elimina la última palabra del array
+                        listaDeListasPalabras.removeAt(listaDeListasPalabras.size - 1)
+                    } else if (position >= 0 && position < listaDeListasPalabras.size) {
+                        // Elimina la palabra en la posición especificada
+                        listaDeListasPalabras.removeAt(position)
+                    } else {
+                        // Maneja el caso en que la posición no sea válida
+                        println("EliminarPalabra: Posición fuera de rango o lista de palabras nula")
+                        return@runBlocking
+                    }
 
                     // Actualiza el mapa mutable con la nueva lista
                     mapaEspecificoMutable[clave] = listaDeListasPalabras.toList()
@@ -254,8 +263,8 @@ object Utils {
                     // Actualiza la base de datos con el array modificado
                     UtilsDB.setPalabras(palabras.toList())
                 } else {
-                    // Maneja el caso en que la posición no sea válida
-                    println("EliminarPalabra: Posición fuera de rango o lista de palabras nula")
+                    // Maneja el caso en que la lista de palabras sea nula
+                    println("EliminarPalabra: Lista de palabras nula")
                 }
             } else {
                 // Maneja el caso en que la clave no se encuentra en el array
@@ -266,6 +275,30 @@ object Utils {
             println("EliminarPalabra: Lista de palabras nula")
         }
     }
+    fun contarPalabrasPorClave(clave: String): Int = runBlocking {
+        // Obtiene la lista actual de palabras, que es un array de mapas
+        val palabras: MutableList<Map<String, List<List<String>>>>? = UtilsDB.getPalabras()?.toMutableList()
+
+        if (palabras != null) {
+            // Encuentra el mapa que corresponde a la clave proporcionada
+            val mapaEspecifico = palabras.find { it.containsKey(clave) }
+
+            if (mapaEspecifico != null) {
+                // Obtiene la lista de listas de palabras asociada a la clave
+                val listaDeListasPalabras = mapaEspecifico[clave]
+
+                // Retorna el número de listas de palabras en la lista (cada lista representa una palabra)
+                return@runBlocking listaDeListasPalabras?.size ?: 0
+            } else {
+                // Si la clave no se encuentra, retorna 0
+                return@runBlocking 0
+            }
+        } else {
+            // Si la lista de palabras es nula, retorna 0
+            return@runBlocking 0
+        }
+    }
+
 
 
 

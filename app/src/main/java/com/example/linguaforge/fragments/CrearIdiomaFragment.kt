@@ -1,5 +1,6 @@
 package com.example.linguaforge.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.linguaforge.models.utils.Utils
 class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment() {
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,11 +32,14 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         val tituloEditText = view.findViewById<EditText>(R.id.tituloEditText)
         val subtituloEditText = view.findViewById<EditText>(R.id.subtituloEditText)
         val banderaTextView = view.findViewById<TextView>(R.id.banderaTextView) // Encuentra el TextView
+        val cantidadText = view.findViewById<TextView>(R.id.cantidadPalabras) // Encuentra el TextView
         val crearButton = view.findViewById<Button>(R.id.crearButton) // Encuentra el botón de crear
         var idioma1Seleccionado:String? = null
         var idioma2Seleccionado:String? = null
+        var clave:String? = null
 
-
+         clave = idioma1Seleccionado.toString()+"-"+idioma2Seleccionado.toString()
+        println("JSJALSDNJLSNDJLANDSLJA NL"+clave)
         val adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomasConBanderas.values.toList())
         spinnerIdioma1.adapter = adapter1
 // Establecer el listener para el spinner
@@ -48,6 +53,7 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Opcional: Manejar cualquier caso donde no se selecciona ningún elemento
             }
+
         }
 
 
@@ -71,6 +77,8 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
                 val countryCode = Utils.getCountryCode(idioma2Seleccionado!!)
                 val flagEmoji = Utils.getFlagEmoji(countryCode)
                 banderaTextView.text = flagEmoji // Actualiza el texto del TextView con el emoji
+                //cantidadText.text = Utils.contarPalabrasPorClave(clave).toString() + "palabras"
+
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Opcional: Manejar cualquier caso donde no se selecciona ningún elemento

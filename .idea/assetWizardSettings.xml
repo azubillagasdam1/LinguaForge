@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="flecha_derecha" />
-                            <entry key="sourceFile" value="C:\Users\ARUBA\Desktop\flecha_derecha.svg" />
+                            <entry key="outputName" value="svg_papelera" />
+                            <entry key="sourceFile" value="C:\Users\ARUBA\Downloads\papelera.svg" />
                           </map>
                         </option>
                       </PersistentState>

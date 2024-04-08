@@ -1,6 +1,8 @@
 package com.example.linguaforge.activitys
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.Editable
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private var micIV: ImageView? = null
     private var translateBtn: MaterialButton? = null
     private var translateTV: TextView? = null
+    private var papelera: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         micIV = findViewById(R.id.idIVMic)
         translateBtn = findViewById(R.id.idBtnTranslation)
         translateTV = findViewById(R.id.idTranslatedTV)
+        papelera = findViewById(R.id.idPapeleraImageView)
 
 
         setIdiomas()
@@ -73,7 +77,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         translateBtn?.setOnClickListener {
+            var papelera = findViewById<ImageView>(R.id.idPapeleraImageView)
             translateTV?.visibility = View.VISIBLE
+            papelera?.visibility = View.VISIBLE
             translateTV?.text = ""
 
             if (sourceText?.text.toString().isEmpty()) {
@@ -86,6 +92,20 @@ class MainActivity : AppCompatActivity() {
                 translateText(fromLanguageCode, toLanguageCode, sourceText?.text.toString())
             }
         }
+        sourceText?.setOnClickListener {
+            sourceText?.setText("", TextView.BufferType.EDITABLE)
+        }
+
+
+        papelera!!.setOnClickListener {
+
+            // Llama a tu función para eliminar la palabra aquí
+            Utils.eliminarPalabra(clave, 999999)
+            papelera?.visibility = View.GONE
+            translateTV?.visibility = View.GONE
+
+        }
+
     }
 
     private fun setIdiomas() {
@@ -110,6 +130,10 @@ class MainActivity : AppCompatActivity() {
             translateTV?.text = ""
             translator.translate(source).addOnSuccessListener { translatedText ->
                 translateTV?.text = translatedText
+
+                papelera?.visibility = View.VISIBLE
+                Utils.anadirPalabra(clave,source,translatedText)
+
             }.addOnFailureListener { e ->
                 Toast.makeText(this@MainActivity, "Failed to translate! Try again", Toast.LENGTH_SHORT).show()
             }

@@ -111,22 +111,39 @@
             android:textAllCaps="false" />
 
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/idTranslatedTV"
-            android:background="@drawable/background"
-            android:elevation="3dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:padding="16sp"
-            android:textSize="30sp"
-            android:textColor="@color/colorPrimary"
-            android:letterSpacing="0.03"
-            android:visibility="gone"/>
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/idTranslatedTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background"
+                android:elevation="3dp"
+                android:textAlignment="center"
+                android:padding="16sp"
+                android:textSize="30sp"
+                android:textColor="@color/colorPrimary"
+                android:letterSpacing="0.03"
+                android:visibility="gone"
+              />
+            <ImageView
+                android:id="@+id/idPapeleraImageView"
+                android:layout_width="61dp"
+                android:layout_height="45dp"
+                android:elevation="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"
+                android:src="@drawable/svg_papelera" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
