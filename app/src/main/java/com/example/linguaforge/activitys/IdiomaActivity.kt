@@ -94,7 +94,7 @@ class IdiomaActivity : AppCompatActivity() {
         intent.putExtra("idioma1",  Utils.getCountryCode(item.idioma1))
         intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
-        finish()
+       
     }
 
     private fun onItemLongClicked(position: Int) {

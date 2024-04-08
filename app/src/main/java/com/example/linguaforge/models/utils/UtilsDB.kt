@@ -510,6 +510,37 @@ class UtilsDB {
                 }
         }
 
+        fun setPalabras(palabras: List<Map<String, List<List<String>>>>) {
+            actualizarVariables()
+
+            // Transforma la estructura de palabras para el formato esperado por Firestore
+            val palabrasFirestore = palabras.map { mapaPalabras ->
+                mapaPalabras.mapValues { entry ->
+                    entry.value.map { listaPalabras ->
+                        // Asegúrate de que cada sublista tenga al menos dos elementos (palabra y traducción)
+                        if (listaPalabras.size >= 2) {
+                            hashMapOf("palabra" to listaPalabras[0], "traduccion" to listaPalabras[1])
+                        } else {
+                            hashMapOf("palabra" to "", "traduccion" to "")
+                        }
+                    }
+                }
+            }
+
+            val data = hashMapOf(
+                "palabras" to palabrasFirestore
+            )
+
+            // Actualiza el documento en Firestore
+            usersCollection.document(emailEncriptado).update(data as Map<String, Any>)
+                .addOnSuccessListener {
+                    Log.d(ContentValues.TAG, "Palabras actualizadas correctamente")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(ContentValues.TAG, "Error al actualizar las palabras", e)
+                }
+        }
+
 
 
 

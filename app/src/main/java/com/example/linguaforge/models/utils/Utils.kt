@@ -226,6 +226,49 @@ object Utils {
 
     }
 
+    fun eliminarPalabra(clave: String, position: Int) = runBlocking {
+        // Obtiene la lista actual de palabras, que es un array de mapas
+        val palabras: MutableList<Map<String, List<List<String>>>>? = UtilsDB.getPalabras()?.toMutableList()
+
+        if (palabras != null) {
+            // Encuentra el índice del mapa que corresponde a la clave proporcionada
+            val indiceMapaEspecifico = palabras.indexOfFirst { it.containsKey(clave) }
+
+            if (indiceMapaEspecifico != -1) {
+                // Crea una copia mutable del mapa específico
+                val mapaEspecificoMutable = palabras[indiceMapaEspecifico].toMutableMap()
+
+                // Obtiene la lista de listas de palabras asociada a la clave y la convierte en mutable
+                val listaDeListasPalabras = mapaEspecificoMutable[clave]?.toMutableList()
+
+                if (listaDeListasPalabras != null && position >= 0 && position < listaDeListasPalabras.size) {
+                    // Elimina la sublista en la posición especificada
+                    listaDeListasPalabras.removeAt(position)
+
+                    // Actualiza el mapa mutable con la nueva lista
+                    mapaEspecificoMutable[clave] = listaDeListasPalabras.toList()
+
+                    // Reemplaza el mapa antiguo con el nuevo en el array de palabras
+                    palabras[indiceMapaEspecifico] = mapaEspecificoMutable.toMap()
+
+                    // Actualiza la base de datos con el array modificado
+                    UtilsDB.setPalabras(palabras.toList())
+                } else {
+                    // Maneja el caso en que la posición no sea válida
+                    println("EliminarPalabra: Posición fuera de rango o lista de palabras nula")
+                }
+            } else {
+                // Maneja el caso en que la clave no se encuentra en el array
+                println("EliminarPalabra: Clave no encontrada en el array de palabras")
+            }
+        } else {
+            // Maneja el caso en que la lista de palabras sea nula
+            println("EliminarPalabra: Lista de palabras nula")
+        }
+    }
+
+
+
 
 }
 

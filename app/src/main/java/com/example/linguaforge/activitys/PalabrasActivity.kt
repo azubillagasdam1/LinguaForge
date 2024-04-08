@@ -1,6 +1,7 @@
 package com.example.linguaforge.activitys
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -30,6 +31,8 @@ class PalabrasActivity : AppCompatActivity() {
     private lateinit var itemPalabra: List<ItemPalabra>
     private lateinit var idioma1: String
     private lateinit var idioma2: String
+    private lateinit var clave: String
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,7 @@ class PalabrasActivity : AppCompatActivity() {
         // Ahora obtenemos los valores del Intent dentro de onCreate
         idioma1 = intent.getStringExtra("idioma1") ?: ""
         idioma2 = intent.getStringExtra("idioma2") ?: ""
-
+        clave = idioma1 + "-" + idioma2
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -53,7 +56,7 @@ class PalabrasActivity : AppCompatActivity() {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> true
                 MotionEvent.ACTION_UP -> {
-                    var clave = idioma1 + "-" + idioma2
+
                     val fragmentManager = supportFragmentManager
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("idioma1",  idioma1)
@@ -111,8 +114,22 @@ class PalabrasActivity : AppCompatActivity() {
 
     private fun onItemLongClicked(position: Int) {
         val item = itemPalabra[position]
-        Toast.makeText(this, "Mantenido: ${item.idioma}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Mantenido: ${item.traduccion}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue mantenido.")
+
+        // Crear un AlertDialog para confirmar la eliminación
+        AlertDialog.Builder(this)
+            .setTitle("Eliminar biblioteca")
+            .setMessage("¿Desea eliminar esta biblioteca: ${item.traduccion}?")
+            .setPositiveButton("Eliminar") { dialog, which ->
+                //SI
+                Toast.makeText(this, "${item.traduccion} eliminado", Toast.LENGTH_SHORT).show()
+                Utils.eliminarPalabra(clave,position)
+                Utils.recargarActividad(this)
+            }
+            //NO
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
 

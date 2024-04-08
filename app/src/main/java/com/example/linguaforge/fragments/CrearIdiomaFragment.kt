@@ -79,8 +79,6 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
 
         crearButton.setOnClickListener {
             Utils.anadirIdioma(tituloEditText.text.toString(),subtituloEditText.text.toString(),idioma1Seleccionado!!,idioma2Seleccionado!!)
-            var clave = Utils.getCountryCode(idioma1Seleccionado!!)+ "-" + Utils.getCountryCode(idioma2Seleccionado!!)
-            Utils.anadirPalabra(clave,"ejemplo","example")
             Utils.recargarActividad(contextoElegirActivity)
             closeFragment()
         }
