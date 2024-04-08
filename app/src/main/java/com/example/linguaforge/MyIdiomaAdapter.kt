@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.models.utils.Utils
+import com.example.linguaforge.models.utils.UtilsDB
 
 class MyIdiomaAdapter(private val itemIdiomas: List<ItemIdioma>, private val listener: OnItemClickListener) : RecyclerView.Adapter<MyIdiomaAdapter.ViewHolder>() {
 
@@ -18,6 +19,7 @@ class MyIdiomaAdapter(private val itemIdiomas: List<ItemIdioma>, private val lis
         val title: TextView = view.findViewById(R.id.titleTextView)
         val subtitle: TextView = view.findViewById(R.id.subtitleTextView)
         val flag: TextView = view.findViewById(R.id.flagTextView)
+        var cantidadPalabras: TextView = view.findViewById(R.id.cantidadPalabras)
 
         fun bind(itemIdioma: ItemIdioma, listener: OnItemClickListener, position: Int) {
             title.text = itemIdioma.title
@@ -25,6 +27,8 @@ class MyIdiomaAdapter(private val itemIdiomas: List<ItemIdioma>, private val lis
             println("idiomaAdapter1:" +  itemIdioma.idioma1)
             println("idiomaAdapter2:" +  itemIdioma.idioma2)
             flag.text = Utils.getFlagEmoji(Utils.getCountryCode(itemIdioma.idioma2))
+            var clave = Utils.getCountryCode(itemIdioma.idioma1)  + "-" + Utils.getCountryCode(itemIdioma.idioma2)
+            cantidadPalabras.text = Utils.contarPalabrasPorClave(clave).toString() + " palabras"
             itemView.setOnClickListener { listener.onItemClick(position) }
             itemView.setOnLongClickListener {
                 listener.onItemLongClick(position)

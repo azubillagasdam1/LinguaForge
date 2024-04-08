@@ -32,14 +32,13 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         val tituloEditText = view.findViewById<EditText>(R.id.tituloEditText)
         val subtituloEditText = view.findViewById<EditText>(R.id.subtituloEditText)
         val banderaTextView = view.findViewById<TextView>(R.id.banderaTextView) // Encuentra el TextView
-        val cantidadText = view.findViewById<TextView>(R.id.cantidadPalabras) // Encuentra el TextView
         val crearButton = view.findViewById<Button>(R.id.crearButton) // Encuentra el botón de crear
         var idioma1Seleccionado:String? = null
         var idioma2Seleccionado:String? = null
-        var clave:String? = null
 
-         clave = idioma1Seleccionado.toString()+"-"+idioma2Seleccionado.toString()
-        println("JSJALSDNJLSNDJLANDSLJA NL"+clave)
+
+
+
         val adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomasConBanderas.values.toList())
         spinnerIdioma1.adapter = adapter1
 // Establecer el listener para el spinner
