@@ -5,4 +5,11 @@
         <item name="android:textAlignment">center</item>
         <item name="android:padding">8dp</item>
     </style>
+    <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#42ACFF</item>
+        <item name="strokeColor">#FFFFFF</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">50dp</item>
+    </style>
+
 </resources>

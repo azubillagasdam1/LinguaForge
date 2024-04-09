@@ -39,7 +39,7 @@ class TraductorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_traductor)
         idioma1 = intent.getStringExtra("idioma1") ?: ""
         idioma2 = intent.getStringExtra("idioma2") ?: ""
         clave = intent.getStringExtra("clave") ?: ""
@@ -150,16 +150,9 @@ class TraductorActivity : AppCompatActivity() {
     }
 
 
-    fun irRecicler(view: View) {
-        val intent = Intent(this, IdiomaActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
 
-    fun irLogin(view: View) {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
+    fun irAtras(view: View) {
+        onBackPressed()
     }
 
 }
