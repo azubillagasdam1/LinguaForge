@@ -85,21 +85,36 @@
                 android:textSize="40dp" />
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/idEditSource"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/background"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Enter text"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textColorHint="@color/colorSecondary"
-            android:textSize="50sp" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/idEditSource"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/background"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Enter text"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorSecondary"
+                android:textSize="50sp" />
+
+            <ImageView
+                android:id="@+id/checkImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/svg_check"
+            android:layout_gravity="center"
+                android:alpha="0"/>
+
+        </FrameLayout>
+
 
 
         <com.google.android.material.button.MaterialButton

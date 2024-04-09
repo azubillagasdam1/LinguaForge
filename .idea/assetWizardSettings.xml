@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="svg_flecha_curva" />
-                            <entry key="sourceFile" value="C:\Users\ARUBA\Downloads\flecha_curva.svg" />
+                            <entry key="outputName" value="svg_check" />
+                            <entry key="sourceFile" value="C:\Users\ARUBA\Downloads\check.svg" />
                           </map>
                         </option>
                       </PersistentState>

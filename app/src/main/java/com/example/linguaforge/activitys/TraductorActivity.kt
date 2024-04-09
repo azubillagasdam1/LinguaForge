@@ -1,7 +1,12 @@
 package com.example.linguaforge.activitys
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.SpannableStringBuilder
@@ -28,6 +33,10 @@ class TraductorActivity : AppCompatActivity() {
     private var idioma1 = ""
     private var idioma2 = ""
     private var clave = ""
+    private var source = ""
+    private var translatedText = ""
+
+
 
     private var idioma1TextView: TextView? = null
     private var idioma2TextView: TextView? = null
@@ -36,6 +45,7 @@ class TraductorActivity : AppCompatActivity() {
     private var translateBtn: MaterialButton? = null
     private var translateTV: TextView? = null
     private var papelera: ImageView? = null
+    private var check: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +54,7 @@ class TraductorActivity : AppCompatActivity() {
         idioma2 = intent.getStringExtra("idioma2") ?: ""
         clave = intent.getStringExtra("clave") ?: ""
 
+
         idioma1TextView = findViewById(R.id.idioma1TextView)
         idioma2TextView = findViewById(R.id.idioma2TextView)
         sourceText = findViewById(R.id.idEditSource)
@@ -51,6 +62,7 @@ class TraductorActivity : AppCompatActivity() {
         translateBtn = findViewById(R.id.idBtnTranslation)
         translateTV = findViewById(R.id.idTranslatedTV)
         papelera = findViewById(R.id.idPapeleraImageView)
+        check = findViewById(R.id.checkImageView)
 
 
         setIdiomas()
@@ -89,6 +101,30 @@ class TraductorActivity : AppCompatActivity() {
             }
         }
         sourceText?.setOnClickListener {
+
+            // Verifica si la traducción ya existe
+            var existeTraduccion = Utils.existeTraduccion(source, translatedText)
+
+// Verifica si las variables son vacías
+            var palabra1vacia = sourceText?.text.isNullOrEmpty()
+            var palabra2vacia = translatedText.isNullOrEmpty()
+
+            if (!palabra1vacia && !palabra2vacia) {
+                if (!existeTraduccion) {
+                    // Si no está vacío y no existe, guarda la palabra
+                    guardarPalabra(clave, source, translatedText)
+                } else {
+                    // Si la traducción ya existe, muestra el mensaje "ya existe"
+                    val mensajeOriginal = translateTV?.text.toString()
+                    translateTV?.text = "ya existe"
+
+                    // Crea un Handler para revertir el mensaje después de 1 segundo
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        translateTV?.text = mensajeOriginal
+                    }, 1000)
+                }
+            }
+
             sourceText?.setText("", TextView.BufferType.EDITABLE)
         }
 
@@ -124,11 +160,14 @@ class TraductorActivity : AppCompatActivity() {
         val conditions = FirebaseModelDownloadConditions.Builder().build()
         translator.downloadModelIfNeeded(conditions).addOnSuccessListener {
             translateTV?.text = ""
+
             translator.translate(source).addOnSuccessListener { translatedText ->
                 translateTV?.text = translatedText
 
+                this.source = source
+                this.translatedText = translatedText
                 papelera?.visibility = View.VISIBLE
-                Utils.anadirPalabra(clave,source,translatedText)
+
 
             }.addOnFailureListener { e ->
                 Toast.makeText(this@TraductorActivity, "Failed to translate! Try again", Toast.LENGTH_SHORT).show()
@@ -139,6 +178,30 @@ class TraductorActivity : AppCompatActivity() {
 
     }
 
+    private fun guardarPalabra(clave:String,source:String,translatedText:String) {
+        Utils.anadirPalabra(clave,source,translatedText)
+            efectoCheck()
+    }
+@SuppressLint("ObjectAnimatorBinding")
+private fun efectoCheck(){
+    // Fade in (0 to 1 alpha) animation
+    val fadeIn = ObjectAnimator.ofFloat(check, "alpha", 0f, 1f).apply {
+        duration = 50
+    }
+
+    // Fade out (1 to 0 alpha) animation
+    val fadeOut = ObjectAnimator.ofFloat(check, "alpha", 1f, 0f).apply {
+        duration = 1000
+        startDelay = 50 // Start fade out after fade in is complete
+    }
+
+    // Play the animations sequentially
+    val set = AnimatorSet().apply {
+        playSequentially(fadeIn, fadeOut)
+    }
+
+    set.start()
+}
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -152,6 +215,7 @@ class TraductorActivity : AppCompatActivity() {
 
 
     fun irAtras(view: View) {
+
         onBackPressed()
     }
 

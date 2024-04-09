@@ -299,6 +299,28 @@ object Utils {
         }
     }
 
+    fun existeTraduccion(palabraBuscada: String, traduccionBuscada: String): Boolean = runBlocking {
+        val palabras = UtilsDB.getPalabras() // Obtiene la lista de palabras que es un array de mapas
+
+        palabras?.forEach { mapaIdioma ->
+            // Itera a través de cada entrada del mapa de idioma
+            mapaIdioma.forEach { (_, listaDePalabras) ->
+                // Verifica si alguna de las listas de palabras contiene la palabra y traducción buscada
+                listaDePalabras.any { lista ->
+                    lista.size >= 2 && lista[0] == palabraBuscada && lista[1] == traduccionBuscada
+                }.let { existe ->
+                    if (existe) return@runBlocking true // Retorna true si encuentra una coincidencia
+                    println("La palabra ya existe")
+                }
+            }
+        }
+        println("La palabra no existe")
+        return@runBlocking false // Retorna false si no se encontró ninguna coincidencia
+
+    }
+
+
+
 
 
 
