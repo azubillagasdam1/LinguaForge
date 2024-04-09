@@ -113,11 +113,9 @@
 
 
     <ImageView
-        android:id="@+id/flechaCurvaTextView"
+        android:id="@+id/flechaCurvaImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:clickable="true"
-        android:onClick="iniciarSesionGoogle"
         android:src="@drawable/svg_flecha_curva"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -134,7 +132,7 @@
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flechaCurvaTextView" />
+        app:layout_constraintTop_toBottomOf="@id/flechaCurvaImageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

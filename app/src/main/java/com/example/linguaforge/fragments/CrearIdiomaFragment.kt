@@ -3,6 +3,7 @@ package com.example.linguaforge.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,15 +39,16 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
 
 
 
-
         val adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomasConBanderas.values.toList())
         spinnerIdioma1.adapter = adapter1
 // Establecer el listener para el spinner
+
         spinnerIdioma1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Aquí obtenemos el nombre del idioma basado en la posición del emoji seleccionado
                 idioma1Seleccionado = Utils.idiomasConBanderas.keys.toList()[position]
                 // Aunque mostramos emojis en el spinner, guardamos el nombre del idioma correspondiente
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -77,6 +79,7 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
                 val flagEmoji = Utils.getFlagEmoji(countryCode)
                 banderaTextView.text = flagEmoji // Actualiza el texto del TextView con el emoji
                 //cantidadText.text = Utils.contarPalabrasPorClave(clave).toString() + "palabras"
+                tituloEditText.text = Editable.Factory.getInstance().newEditable(idioma2Seleccionado.toString())
 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -90,6 +93,8 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
             closeFragment()
         }
         return view
+
+
     }
 
 

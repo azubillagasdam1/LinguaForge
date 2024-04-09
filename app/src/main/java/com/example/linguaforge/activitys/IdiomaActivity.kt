@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +31,17 @@ import com.example.linguaforge.fragments.CrearIdiomaFragment
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class IdiomaActivity : AppCompatActivity() {
     private var anadirButton: Button? = null
+    private var fondo: LinearLayout? = null
     private var recyclerView: RecyclerView? = null
     private lateinit var itemIdiomas: List<ItemIdioma>
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +54,7 @@ class IdiomaActivity : AppCompatActivity() {
             insets
         }
         crearRecyclerView(this)
-
+        fondo = findViewById(R.id.fondoFlecha)
         anadirButton = findViewById(R.id.anadirBotton)
         anadirButton?.setOnTouchListener { v, event ->
             when (event.action) {
@@ -69,16 +74,35 @@ class IdiomaActivity : AppCompatActivity() {
             }
         }
 
-
+       ponerFondo()
     }
+
+    private fun ponerFondo() {
+        // Lanza una corutina en el contexto de la UI
+        lifecycleScope.launch {
+            // Haz la llamada a la base de datos en un hilo secundario y espera el resultado
+            val numeroElementos = withContext(Dispatchers.IO) {
+                UtilsDB.getIdiomas()?.size ?: 0
+            }
+
+            // Una vez que tienes el resultado, actualiza la UI en el hilo principal
+            if (numeroElementos == 0) {
+                fondo?.visibility = View.VISIBLE
+            } else {
+                fondo?.visibility = View.GONE
+            }
+        }
+    }
+
 
     private fun crearRecyclerView(context: Context) {
         lifecycleScope.launch {
-            // Mueve la lógica de inicialización de RecyclerView aquí
             recyclerView = findViewById(R.id.recyclerView)
             recyclerView?.layoutManager = LinearLayoutManager(context)
 
             val idiomasList = UtilsDB.getIdiomas() ?: listOf()
+            // Establecer recyclerViewVacio en false si idiomasList tiene elementos
+
             itemIdiomas = idiomasList.map { idiomaMap ->
                 ItemIdioma(
                     idiomaMap["titulo"] ?: "Título predeterminado",
@@ -99,6 +123,7 @@ class IdiomaActivity : AppCompatActivity() {
             })
         }
     }
+
     private fun onItemClicked(position: Int) {
         val item = itemIdiomas[position]
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()

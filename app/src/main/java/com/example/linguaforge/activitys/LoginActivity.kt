@@ -22,8 +22,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
 import com.example.linguaforge.R
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.entity.User
@@ -43,6 +41,13 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "LoginActivity"
     private val RC_SIGN_IN = 9001
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var logoImageView:ImageView
+    private lateinit var subtituloTextView:TextView
+    private lateinit var googleImageView:ImageView
+    private lateinit var flechaCurvaImageView:ImageView
+    private lateinit var iniciaSesionTextview:TextView
+    private lateinit var titleTextView:TextView
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +59,13 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        mediaPlayer = MediaPlayer.create(this, R.raw.click_sound)
+         mediaPlayer = MediaPlayer.create(this, R.raw.click_sound)
+         logoImageView = findViewById<ImageView>(R.id.logoImageView)
+         subtituloTextView = findViewById<TextView>(R.id.subtitleTextView)
+         googleImageView = findViewById<ImageView>(R.id.googleSignInImageView)
+         flechaCurvaImageView = findViewById<ImageView>(R.id.flechaCurvaImageView)
+         iniciaSesionTextview = findViewById<TextView>(R.id.iniciaSesionTextview)
+        titleTextView = findViewById<TextView>(R.id.titleTextView)
 
         // Comprobar si el usuario ya está autenticado con Firebase al iniciar la actividad
         if (FirebaseDB.getInstanceFirebase().currentUser != null) {
@@ -64,9 +75,10 @@ class LoginActivity : AppCompatActivity() {
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
         animacionFondo()
+        animacionMovimientoImageView(googleImageView)
 
 
-        val logoImageView = findViewById<ImageView>(R.id.logoImageView)
+
 
         logoImageView.alpha = 0f
         logoImageView.scaleX = 2f
@@ -84,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
             duration = 3000
         }
 
-        val titleTextView = findViewById<TextView>(R.id.titleTextView)
+
 
         titleTextView.alpha = 0f
         titleTextView.scaleX = 2f
@@ -112,22 +124,29 @@ class LoginActivity : AppCompatActivity() {
             playTogether(fadeInAnimator, scaleXAnimator, scaleYAnimator)
             start()
         }
-        var subtituloTextView = findViewById<TextView>(R.id.subtitleTextView)
-        var googleSignInImageView = findViewById<ImageView>(R.id.googleSignInImageView)
-        var flechaCurvaTextView = findViewById<ImageView>(R.id.flechaCurvaTextView)
-        var iniciaSesionTextview = findViewById<TextView>(R.id.iniciaSesionTextview)
 
-        googleSignInImageView.setAlpha(0f)
-        flechaCurvaTextView.setAlpha(0f)
+
+
+        googleImageView.setAlpha(0f)
+        subtituloTextView.setAlpha(0f)
+        flechaCurvaImageView.setAlpha(0f)
         iniciaSesionTextview.setAlpha(0f)
 
-        YoYo.with(Techniques.FadeIn).duration(5000).playOn(googleSignInImageView)
 
+
+        googleImageView.alpha = 0f
         subtituloTextView.alpha = 0f
-        flechaCurvaTextView.alpha = 0f
+        flechaCurvaImageView.alpha = 0f
         iniciaSesionTextview.alpha = 0f
 
 
+
+        // Animación para iniciaSesionTextview con retraso
+        ObjectAnimator.ofFloat(googleImageView, "alpha", 0f, 1f).apply {
+            duration = 5000 // Duración de la animación
+            startDelay = 1000    // Retraso antes de iniciar la animación
+            start() // Iniciar la animación
+        }
 // Animación para iniciaSesionTextview con retraso
         ObjectAnimator.ofFloat(subtituloTextView, "alpha", 0f, 1f).apply {
             duration = 5000 // Duración de la animación
@@ -135,7 +154,7 @@ class LoginActivity : AppCompatActivity() {
             start() // Iniciar la animación
         }
 
-        ObjectAnimator.ofFloat(flechaCurvaTextView, "alpha", 0f, 1f).apply {
+        ObjectAnimator.ofFloat(flechaCurvaImageView, "alpha", 0f, 1f).apply {
             duration = 5000 // Duración de la animación en milisegundos
             startDelay = 5000 // Retraso antes de iniciar la animación
             start() // Iniciar la animación
@@ -151,7 +170,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-        googleSignInImageView.setOnTouchListener { v, event ->
+        googleImageView.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     // Establecer el punto de pivote en el centro y escalar la vista.
@@ -337,6 +356,43 @@ class LoginActivity : AppCompatActivity() {
                         }
                 }
             }
+    }
+
+    fun animacionMovimientoImageView(imageView: View) {
+        // Establecer los puntos de pivote en el centro del botón para la animación
+        imageView.pivotX = imageView.width / 2f
+        imageView.pivotY = imageView.height / 2f
+
+        val aumentarX = ObjectAnimator.ofFloat(imageView, "scaleX", 1f, 1.1f)
+        val aumentarY = ObjectAnimator.ofFloat(imageView, "scaleY", 1f, 1.1f)
+        aumentarX.duration = 5000
+        aumentarY.duration = 5000
+
+        val disminuirX = ObjectAnimator.ofFloat(imageView, "scaleX", 1.1f, 1f)
+        val disminuirY = ObjectAnimator.ofFloat(imageView, "scaleY", 1.1f, 1f)
+        disminuirX.duration = 5000
+        disminuirY.duration = 5000
+
+        val aumentarSet = AnimatorSet().apply {
+            playTogether(aumentarX, aumentarY)
+        }
+
+        val disminuirSet = AnimatorSet().apply {
+            playTogether(disminuirX, disminuirY)
+        }
+
+        val overallSet = AnimatorSet().apply {
+            playSequentially(aumentarSet, disminuirSet)
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    // Reiniciar la animación al finalizar
+                    this@apply.start()
+                }
+            })
+        }
+
+        overallSet.start()
     }
 
     fun animacionFondo() {
