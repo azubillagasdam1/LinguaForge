@@ -10,11 +10,14 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemPalabra
@@ -23,15 +26,21 @@ import com.example.linguaforge.R
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class PalabrasActivity : AppCompatActivity() {
     private var anadirButton: Button? = null
     private var recyclerView: RecyclerView? = null
+    private var fondo: LinearLayout? = null
     private lateinit var itemPalabra: List<ItemPalabra>
     private lateinit var idioma1: String
     private lateinit var idioma2: String
     private lateinit var clave: String
+    private lateinit var textViewIzquierdo: TextView
+    private lateinit var textViewDerecho: TextView
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -40,10 +49,12 @@ class PalabrasActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_palabras)
 
-        // Ahora obtenemos los valores del Intent dentro de onCreate
+        fondo = findViewById(R.id.fondoFlecha)
         idioma1 = intent.getStringExtra("idioma1") ?: ""
         idioma2 = intent.getStringExtra("idioma2") ?: ""
         clave = idioma1 + "-" + idioma2
+        textViewIzquierdo = findViewById<TextView>(R.id.textViewIzquierdo)
+        textViewDerecho = findViewById<TextView>(R.id.textViewDerecho)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -58,8 +69,8 @@ class PalabrasActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP -> {
 
                     val fragmentManager = supportFragmentManager
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("idioma1",  idioma1)
+                    val intent = Intent(this, TraductorActivity::class.java)
+                    intent.putExtra("idioma1", idioma1)
                     intent.putExtra("idioma2", idioma2)
                     intent.putExtra("clave", clave)
                     startActivity(intent)
@@ -69,7 +80,30 @@ class PalabrasActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        ponerFondo()
     }
+
+    private fun ponerFondo() {
+        // Lanza una corutina en el contexto de la UI
+        lifecycleScope.launch {
+            // Haz la llamada a la base de datos en un hilo secundario y espera el resultado
+            val numeroElementos = withContext(Dispatchers.IO) {
+                UtilsDB.getPalabras()?.find { it.containsKey(clave) }?.get(clave)?.size ?: 0
+            }
+
+            // Una vez que tienes el resultado, actualiza la UI en el hilo principal
+            if (numeroElementos == 0) {
+                fondo?.visibility = View.VISIBLE
+                textViewIzquierdo?.visibility = View.GONE
+                textViewDerecho?.visibility = View.GONE
+            } else {
+                fondo?.visibility = View.GONE
+                textViewIzquierdo?.visibility = View.VISIBLE
+                textViewDerecho?.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         // Este método se llama cada vez que la actividad entra en el primer plano.
@@ -91,21 +125,22 @@ class PalabrasActivity : AppCompatActivity() {
         itemPalabra = listaDePalabras.map {
             ItemPalabra(
                 clave,
-                        it[0], // Palabra
+                it[0], // Palabra
                 it[1] // Traducción
-                  // Clave del idioma
+                // Clave del idioma
             )
         }
 
-        recyclerView?.adapter = MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                onItemClicked(position)
-            }
+        recyclerView?.adapter =
+            MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    onItemClicked(position)
+                }
 
-            override fun onItemLongClick(position: Int) {
-                onItemLongClicked(position)
-            }
-        })
+                override fun onItemLongClick(position: Int) {
+                    onItemLongClicked(position)
+                }
+            })
     }
 
 
@@ -147,13 +182,16 @@ class PalabrasActivity : AppCompatActivity() {
     }
 
 
-
-
     fun cerrarSesion(view: View) {
         FirebaseDB.signOut()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    fun irAtras(view: View) {
+        onBackPressed()
+    }
+
 
 }

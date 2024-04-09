@@ -34,7 +34,7 @@
             android:name=".activitys.PalabrasActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.MainActivity"
+            android:name=".activitys.TraductorActivity"
             android:exported="false">
 
         </activity>

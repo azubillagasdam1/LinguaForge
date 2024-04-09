@@ -8,63 +8,124 @@
     android:background="@drawable/degradado_fondo2"
     tools:context=".activitys.PalabrasActivity">
 
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutTexto"
-         android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/fondoFlecha"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        tools:ignore="MissingConstraints">
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvSeleccionarIdioma"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewOverlay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="COLECCION PALABRAS"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"/>
+            android:gravity="center"
+            android:text="Click To Add"
+            android:textColor="#FFFFFF"
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/imageViewOverlay"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:rotation="120"
+            android:src="@drawable/svg_flecha_curva"
+            android:tint="#FFFFFF"
+            tools:ignore="UseAppTint" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#87CEEB"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1">
+
+            <TextView
+                android:id="@+id/tvSeleccionarIdioma"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="50dp"
+                android:text="PALABRAS"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:onClick="irAtras"
+                android:rotation="180"
+                android:src="@drawable/svg_flecha_derecha" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titulos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <!-- TextView izquierdo -->
+
         <TextView
             android:id="@+id/textViewIzquierdo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:text="ORIGINAL"
             android:textSize="18sp"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textViewDerecho"
-            app:layout_constraintTop_toBottomOf="@+id/tvSeleccionarIdioma"
-            app:layout_constraintHorizontal_chainStyle="packed"/>
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <!-- TextView derecho -->
         <TextView
             android:id="@+id/textViewDerecho"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TRADUCCIÓN"
             android:layout_marginTop="20dp"
-            android:textSize="18sp"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@+id/textViewIzquierdo"
+            android:text="TRADUCCIÓN"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSeleccionarIdioma"/>
-
+            app:layout_constraintStart_toEndOf="@+id/textViewIzquierdo"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginVertical="40dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutTexto"
         app:layout_constraintBottom_toTopOf="@id/anadirBotton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/titulos" />
 
 
     <com.google.android.material.button.MaterialButton

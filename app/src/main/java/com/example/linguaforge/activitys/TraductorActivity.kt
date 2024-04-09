@@ -1,16 +1,12 @@
 package com.example.linguaforge.activitys
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +20,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 import java.util.Locale
 
 
-class MainActivity : AppCompatActivity() {
+class TraductorActivity : AppCompatActivity() {
     private val REQUEST_PERMISSION_CODE = 1
     private var fromLanguageCode = 0
     private var toLanguageCode = 0
@@ -73,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, REQUEST_PERMISSION_CODE)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TraductorActivity, e.message, Toast.LENGTH_SHORT).show()
             }
         }
         translateBtn?.setOnClickListener {
@@ -83,11 +79,11 @@ class MainActivity : AppCompatActivity() {
             translateTV?.text = ""
 
             if (sourceText?.text.toString().isEmpty()) {
-                Toast.makeText(this@MainActivity, "Please enter text to translate", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TraductorActivity, "Please enter text to translate", Toast.LENGTH_SHORT).show()
             } else if (fromLanguageCode == 0) {
-                Toast.makeText(this@MainActivity, "Please select Source Language", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TraductorActivity, "Please select Source Language", Toast.LENGTH_SHORT).show()
             } else if (toLanguageCode == 0) {
-                Toast.makeText(this@MainActivity, "Please select the language to make translation", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TraductorActivity, "Please select the language to make translation", Toast.LENGTH_SHORT).show()
             } else {
                 translateText(fromLanguageCode, toLanguageCode, sourceText?.text.toString())
             }
@@ -135,10 +131,10 @@ class MainActivity : AppCompatActivity() {
                 Utils.anadirPalabra(clave,source,translatedText)
 
             }.addOnFailureListener { e ->
-                Toast.makeText(this@MainActivity, "Failed to translate! Try again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TraductorActivity, "Failed to translate! Try again", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(this@MainActivity, "Failed to download model!! Check your internet connection.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@TraductorActivity, "Failed to download model!! Check your internet connection.", Toast.LENGTH_SHORT).show()
         }
 
     }
