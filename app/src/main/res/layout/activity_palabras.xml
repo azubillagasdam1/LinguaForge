@@ -72,8 +72,7 @@
                 android:layout_marginRight="10dp"
                 android:clickable="true"
                 android:onClick="irAtras"
-                android:rotation="180"
-                android:src="@drawable/svg_flecha_derecha" />
+                android:src="@drawable/svg_flecha_atras" />
 
         </LinearLayout>
 

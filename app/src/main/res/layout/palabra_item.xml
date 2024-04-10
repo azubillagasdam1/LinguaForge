@@ -32,7 +32,8 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/svg_flecha_derecha" />
+                android:rotation="180"
+                android:src="@drawable/svg_flecha_atras" />
 
             <TextView
                 android:id="@+id/traduccionTextView"

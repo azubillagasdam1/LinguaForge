@@ -25,8 +25,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:gravity="center"
-            android:text="Modos de Juego"
+            android:text="MODOS DE JUEGO"
+            android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
 
@@ -34,9 +36,9 @@
             android:id="@+id/botonAtrasImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-
-            android:rotation="180"
-            android:src="@drawable/svg_flecha_derecha" />
+            android:src="@drawable/svg_flecha_atras"
+            android:clickable="true"
+            android:onClick="irAtras"/>
 
     </LinearLayout>
 
@@ -46,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/style_bloque_juego"
-        android:padding="10dp"
+        
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerLayout"
@@ -57,7 +59,11 @@
             android:id="@+id/imageModo1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar" />
+            android:src="@drawable/svg_jugar"
+            android:clickable="true"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:onClick="irModo1"/>
 
         <TextView
             android:id="@+id/textoModo1"
@@ -75,7 +81,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/style_bloque_juego"
-        android:padding="10dp"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toEndOf="@id/cuadradoArribaIzquierdaFrameLayout"
@@ -87,7 +93,11 @@
             android:id="@+id/imageModo2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar" />  <!-- Cambia el drawable según necesites -->
+            android:src="@drawable/svg_jugar"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:clickable="true"
+            android:onClick="irModo2"/>  <!-- Cambia el drawable según necesites -->
 
         <TextView
             android:id="@+id/textoModo2"
@@ -105,7 +115,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/style_bloque_juego"
-        android:padding="10dp"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cuadradoArribaIzquierdaFrameLayout"
@@ -116,7 +125,11 @@
             android:id="@+id/imageModo3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar" />  <!-- Ajusta el drawable -->
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/svg_jugar"
+            android:clickable="true"
+            android:onClick="irModo3"/>  <!-- Ajusta el drawable -->
 
         <TextView
             android:id="@+id/textoModo3"
@@ -134,7 +147,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="10dp"
         android:background="@drawable/style_bloque_juego"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toEndOf="@id/cuadradoAbajoIzquierdaFrameLayout"
@@ -146,7 +158,11 @@
             android:id="@+id/imageModo4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar" />  <!-- Ajusta el drawable -->
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/svg_jugar"
+            android:clickable="true"
+            android:onClick="irModo4"/>  <!-- Ajusta el drawable -->
 
         <TextView
             android:id="@+id/textoModo4"
