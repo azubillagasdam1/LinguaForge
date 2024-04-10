@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/degradado_fondo"
+    tools:context=".activitys.JugarActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#87CEEB"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tituloModosJuegoTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Modos de Juego"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/botonAtrasImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:rotation="180"
+            android:src="@drawable/svg_flecha_derecha" />
+
+    </LinearLayout>
+
+    <!-- Cuadrado 1 -->
+    <FrameLayout
+        android:id="@+id/cuadradoArribaIzquierdaFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/style_bloque_juego"
+        android:padding="10dp"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintWidth_percent="0.4"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/imageModo1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_jugar" />
+
+        <TextView
+            android:id="@+id/textoModo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:text="Modo 1" />
+    </FrameLayout>
+    <!-- Cuadrado 2 -->
+    <FrameLayout
+        android:id="@+id/cuadradoArribaDerechaFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/style_bloque_juego"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toEndOf="@id/cuadradoArribaIzquierdaFrameLayout"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintWidth_percent="0.4"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/imageModo2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_jugar" />  <!-- Cambia el drawable según necesites -->
+
+        <TextView
+            android:id="@+id/textoModo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:text="Modo 2" />  <!-- Cambia el texto según necesites -->
+    </FrameLayout>
+    <!-- Cuadrado 3 -->
+    <FrameLayout
+        android:id="@+id/cuadradoAbajoIzquierdaFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/style_bloque_juego"
+        android:padding="10dp"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cuadradoArribaIzquierdaFrameLayout"
+        app:layout_constraintWidth_percent="0.4"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/imageModo3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_jugar" />  <!-- Ajusta el drawable -->
+
+        <TextView
+            android:id="@+id/textoModo3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:text="Modo 3" />  <!-- Ajusta el texto -->
+    </FrameLayout>
+    <!-- Cuadrado 4 -->
+    <FrameLayout
+        android:id="@+id/cuadradoAbajoDerechaFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="10dp"
+        android:background="@drawable/style_bloque_juego"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toEndOf="@id/cuadradoAbajoIzquierdaFrameLayout"
+        app:layout_constraintTop_toBottomOf="@id/cuadradoArribaDerechaFrameLayout"
+        app:layout_constraintWidth_percent="0.4"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/imageModo4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_jugar" />  <!-- Ajusta el drawable -->
+
+        <TextView
+            android:id="@+id/textoModo4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:text="Modo 4" />  <!-- Ajusta el texto -->
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

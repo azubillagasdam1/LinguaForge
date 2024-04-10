@@ -95,10 +95,10 @@ class PalabrasActivity : AppCompatActivity() {
     }
 
     private fun irJugar() {
-        val intent = Intent(this, TraductorActivity::class.java)
+        val intent = Intent(this, JugarActivity::class.java)
         intent.putExtra("clave", clave)
         startActivity(intent)
-        finish()
+
     }
 
     private fun ponerFondo() {
