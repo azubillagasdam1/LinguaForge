@@ -37,7 +37,6 @@ class TraductorActivity : AppCompatActivity() {
     private var translatedText = ""
 
 
-
     private var idioma1TextView: TextView? = null
     private var idioma2TextView: TextView? = null
     private var sourceText: TextInputEditText? = null
@@ -73,7 +72,10 @@ class TraductorActivity : AppCompatActivity() {
 
         micIV?.setOnClickListener {
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something to translate")
 
@@ -91,11 +93,23 @@ class TraductorActivity : AppCompatActivity() {
             translateTV?.text = ""
 
             if (sourceText?.text.toString().isEmpty()) {
-                Toast.makeText(this@TraductorActivity, "Please enter text to translate", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@TraductorActivity,
+                    "Please enter text to translate",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else if (fromLanguageCode == 0) {
-                Toast.makeText(this@TraductorActivity, "Please select Source Language", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@TraductorActivity,
+                    "Please select Source Language",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else if (toLanguageCode == 0) {
-                Toast.makeText(this@TraductorActivity, "Please select the language to make translation", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@TraductorActivity,
+                    "Please select the language to make translation",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 translateText(fromLanguageCode, toLanguageCode, sourceText?.text.toString())
             }
@@ -104,7 +118,6 @@ class TraductorActivity : AppCompatActivity() {
 
             // Verifica si la traducción ya existe
             var existeTraduccion = Utils.existeTraduccion(source, translatedText)
-
 // Verifica si las variables son vacías
             var palabra1vacia = sourceText?.text.isNullOrEmpty()
             var palabra2vacia = translatedText.isNullOrEmpty()
@@ -143,8 +156,10 @@ class TraductorActivity : AppCompatActivity() {
     private fun setIdiomas() {
         fromLanguageCode = Utils.getLanguageFirebaseCode(Utils.getLanguageByCountryCode(idioma1))
         toLanguageCode = Utils.getLanguageFirebaseCode(Utils.getLanguageByCountryCode(idioma2))
-        idioma1TextView?.text = Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma1)))
-        idioma2TextView?.text = Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma2)))
+        idioma1TextView?.text =
+            Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma1)))
+        idioma2TextView?.text =
+            Utils.getFlagEmoji(Utils.getCountryCode(Utils.getLanguageByCountryCode(idioma2)))
     }
 
     private fun translateText(fromLanguageCode: Int, toLanguageCode: Int, source: String) {
@@ -170,38 +185,48 @@ class TraductorActivity : AppCompatActivity() {
 
 
             }.addOnFailureListener { e ->
-                Toast.makeText(this@TraductorActivity, "Failed to translate! Try again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@TraductorActivity,
+                    "Failed to translate! Try again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(this@TraductorActivity, "Failed to download model!! Check your internet connection.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@TraductorActivity,
+                "Failed to download model!! Check your internet connection.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
 
-    private fun guardarPalabra(clave:String,source:String,translatedText:String) {
-        Utils.anadirPalabra(clave,source,translatedText)
-            efectoCheck()
-    }
-@SuppressLint("ObjectAnimatorBinding")
-private fun efectoCheck(){
-    // Fade in (0 to 1 alpha) animation
-    val fadeIn = ObjectAnimator.ofFloat(check, "alpha", 0f, 1f).apply {
-        duration = 50
+    private fun guardarPalabra(clave: String, source: String, translatedText: String) {
+        Utils.anadirPalabra(clave, source, translatedText)
+        efectoCheck()
     }
 
-    // Fade out (1 to 0 alpha) animation
-    val fadeOut = ObjectAnimator.ofFloat(check, "alpha", 1f, 0f).apply {
-        duration = 1000
-        startDelay = 50 // Start fade out after fade in is complete
+    @SuppressLint("ObjectAnimatorBinding")
+    private fun efectoCheck() {
+        // Fade in (0 to 1 alpha) animation
+        val fadeIn = ObjectAnimator.ofFloat(check, "alpha", 0f, 1f).apply {
+            duration = 50
+        }
+
+        // Fade out (1 to 0 alpha) animation
+        val fadeOut = ObjectAnimator.ofFloat(check, "alpha", 1f, 0f).apply {
+            duration = 1000
+            startDelay = 50 // Start fade out after fade in is complete
+        }
+
+        // Play the animations sequentially
+        val set = AnimatorSet().apply {
+            playSequentially(fadeIn, fadeOut)
+        }
+
+        set.start()
     }
 
-    // Play the animations sequentially
-    val set = AnimatorSet().apply {
-        playSequentially(fadeIn, fadeOut)
-    }
-
-    set.start()
-}
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -213,9 +238,19 @@ private fun efectoCheck(){
     }
 
 
-
     fun irAtras(view: View) {
 
+        var palabra1vacia = sourceText?.text.isNullOrEmpty()
+        var palabra2vacia = translatedText.isNullOrEmpty()
+        var existeTraduccion = Utils.existeTraduccion(source, translatedText)
+
+        if (!palabra1vacia && !palabra2vacia) {
+            if (!existeTraduccion) {
+
+
+                guardarPalabra(clave, source, translatedText)
+            }
+        }
         onBackPressed()
     }
 

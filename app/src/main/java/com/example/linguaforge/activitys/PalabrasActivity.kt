@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -32,7 +32,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class PalabrasActivity : AppCompatActivity() {
-    private var anadirButton: Button? = null
+    private var anadirButton: ImageView? = null
+    private var jugarButton: ImageView? = null
     private var recyclerView: RecyclerView? = null
     private var fondo: LinearLayout? = null
     private lateinit var itemPalabra: List<ItemPalabra>
@@ -49,6 +50,8 @@ class PalabrasActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_palabras)
 
+        anadirButton = findViewById(R.id.buttonAnadir)
+        jugarButton = findViewById(R.id.buttonJugar)
         fondo = findViewById(R.id.fondoFlecha)
         idioma1 = intent.getStringExtra("idioma1") ?: ""
         idioma2 = intent.getStringExtra("idioma2") ?: ""
@@ -62,7 +65,15 @@ class PalabrasActivity : AppCompatActivity() {
         }
         crearRecyclerView(this)
 
-        anadirButton = findViewById(R.id.anadirBotton)
+        jugarButton?.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // Acciones cuando el botón es presionado
+                irJugar()
+            }
+            true // Retorna true para indicar que el evento ha sido manejado
+        }
+
+
         anadirButton?.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> true
@@ -81,6 +92,13 @@ class PalabrasActivity : AppCompatActivity() {
             }
         }
         ponerFondo()
+    }
+
+    private fun irJugar() {
+        val intent = Intent(this, TraductorActivity::class.java)
+        intent.putExtra("clave", clave)
+        startActivity(intent)
+        finish()
     }
 
     private fun ponerFondo() {

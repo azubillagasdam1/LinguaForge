@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="#06407a"
+        android:backgroundTint="#2196F3"
         android:text="+"
         android:textSize="56dp"
         app:cornerRadius="100dp"
