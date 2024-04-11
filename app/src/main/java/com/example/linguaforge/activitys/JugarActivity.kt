@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.linguaforge.R
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 
 class JugarActivity : AppCompatActivity() {
     private var imageModo1: ImageView? = null
@@ -57,7 +58,9 @@ class JugarActivity : AppCompatActivity() {
     }
 
 
-    fun irModo1(view: View) {}
+    fun irModo1(view: View) {
+       println(FirebaseTranslateLanguage.getAllLanguages())
+    }
     fun irModo3(view: View) {}
     fun irModo2(view: View) {}
     fun irModo4(view: View) {}

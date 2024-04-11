@@ -10,44 +10,156 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguag
 import kotlinx.coroutines.runBlocking
 
 object Utils {
-     val idiomas = arrayOf(
-        "English", "Welsh", "Hindi", "Urdu", "Afrikaans", "Arabic",
-        "Belarusian", "Bulgarian", "Bengali", "Catalan", "Czech", "Danish", "Dutch",
-        "Finnish", "French", "German", "Greek", "Hungarian", "Italian", "Japanese",
-        "Korean", "Norwegian", "Polish", "Portuguese", "Russian", "Spanish", "Swedish",
-        "Turkish"
+    val idiomas = arrayOf(
+        "Arabic", "Bulgarian", "Catalan", "Chinese", "Croatian", "Czech",
+        "Danish", "Dutch", "English", "Farsi",  "Finnish",
+        "French", "German", "Greek",  "Hindi", "Hungarian", "Indonesian",
+        "Italian", "Japanese", "Korean", "Latvian", "Lithuanian", "Norwegian",
+        "Polish", "Portuguese", "Romanian", "Russian",
+         "Slovak", "Slovenian", "Spanish", "Swedish",
+        "Thai", "Turkish", "Ukrainian", "Vietnamese"
     )
 
     val idiomasConBanderas = mapOf(
-        "English" to "🇬🇧",
-        "Welsh" to "🇬🇧", // Welsh no tiene su propio emoji de bandera, así que utilizo el del Reino Unido
-        "Hindi" to "🇮🇳",
-        "Urdu" to "🇵🇰",
-        "Afrikaans" to "🇿🇦",
-        "Arabic" to "🇸🇦",
-        "Belarusian" to "🇧🇾",
-        "Bulgarian" to "🇧🇬",
-        "Bengali" to "🇧🇩",
-        "Catalan" to "🇪🇸", // Catalán se habla principalmente en España, pero no tiene su propia bandera emoji
-        "Czech" to "🇨🇿",
-        "Danish" to "🇩🇰",
-        "Dutch" to "🇳🇱",
-        "Finnish" to "🇫🇮",
-        "French" to "🇫🇷",
-        "German" to "🇩🇪",
-        "Greek" to "🇬🇷",
-        "Hungarian" to "🇭🇺",
-        "Italian" to "🇮🇹",
-        "Japanese" to "🇯🇵",
-        "Korean" to "🇰🇷",
-        "Norwegian" to "🇳🇴",
-        "Polish" to "🇵🇱",
-        "Portuguese" to "🇵🇹",
-        "Russian" to "🇷🇺",
-        "Spanish" to "🇪🇸",
-        "Swedish" to "🇸🇪",
-        "Turkish" to "🇹🇷"
+        "Arabic" to "🇸🇦", "Bulgarian" to "🇧🇬", "Catalan" to "🇪🇸",
+        "Chinese" to "🇨🇳", "Croatian" to "🇭🇷", "Czech" to "🇨🇿",
+        "Danish" to "🇩🇰", "Dutch" to "🇳🇱", "English" to "🇺🇸",
+        "Farsi" to "🇮🇷",  "Finnish" to "🇫🇮", "French" to "🇫🇷",
+        "German" to "🇩🇪", "Greek" to "🇬🇷",  "Hindi" to "🇮🇳",
+        "Hungarian" to "🇭🇺", "Indonesian" to "🇮🇩", "Italian" to "🇮🇹",
+        "Japanese" to "🇯🇵", "Korean" to "🇰🇷", "Latvian" to "🇱🇻",
+        "Lithuanian" to "🇱🇹", "Norwegian" to "🇳🇴", "Polish" to "🇵🇱",
+        "Portuguese" to "🇧🇷",
+        "Romanian" to "🇷🇴", "Russian" to "🇷🇺",
+        "Slovak" to "🇸🇰", "Slovenian" to "🇸🇮", "Spanish" to "🇪🇸",
+         "Swedish" to "🇸🇪", "Thai" to "🇹🇭",
+        "Turkish" to "🇹🇷", "Ukrainian" to "🇺🇦", "Vietnamese" to "🇻🇳"
     )
+
+    fun getLanguageFirebaseCode(language: String): Int {
+        return when (language) {
+            "Arabic" -> FirebaseTranslateLanguage.AR
+            "Bulgarian" -> FirebaseTranslateLanguage.BG
+            "Catalan" -> FirebaseTranslateLanguage.CA
+            "Chinese" -> FirebaseTranslateLanguage.ZH
+            "Croatian" -> FirebaseTranslateLanguage.HR
+            "Czech" -> FirebaseTranslateLanguage.CS
+            "Danish" -> FirebaseTranslateLanguage.DA
+            "Dutch" -> FirebaseTranslateLanguage.NL
+            "English" -> FirebaseTranslateLanguage.EN
+            "Farsi" -> FirebaseTranslateLanguage.FA
+            "Finnish" -> FirebaseTranslateLanguage.FI
+            "French" -> FirebaseTranslateLanguage.FR
+            "German" -> FirebaseTranslateLanguage.DE
+            "Greek" -> FirebaseTranslateLanguage.EL
+            "Hindi" -> FirebaseTranslateLanguage.HI
+            "Hungarian" -> FirebaseTranslateLanguage.HU
+            "Indonesian" -> FirebaseTranslateLanguage.ID
+            "Italian" -> FirebaseTranslateLanguage.IT
+            "Japanese" -> FirebaseTranslateLanguage.JA
+            "Korean" -> FirebaseTranslateLanguage.KO
+            "Latvian" -> FirebaseTranslateLanguage.LV
+            "Lithuanian" -> FirebaseTranslateLanguage.LT
+            "Norwegian" -> FirebaseTranslateLanguage.NO
+            "Polish" -> FirebaseTranslateLanguage.PL
+           "Portuguese" -> FirebaseTranslateLanguage.PT
+            "Romanian" -> FirebaseTranslateLanguage.RO
+            "Russian" -> FirebaseTranslateLanguage.RU
+            "Slovak" -> FirebaseTranslateLanguage.SK
+            "Slovenian" -> FirebaseTranslateLanguage.SL
+            "Spanish" -> FirebaseTranslateLanguage.ES
+            "Swedish" -> FirebaseTranslateLanguage.SV
+            "Thai" -> FirebaseTranslateLanguage.TH
+            "Turkish" -> FirebaseTranslateLanguage.TR
+            "Ukrainian" -> FirebaseTranslateLanguage.UK
+            "Vietnamese" -> FirebaseTranslateLanguage.VI
+            else -> FirebaseTranslateLanguage.EN // Default or consider throwing an error
+        }
+    }
+
+    fun getCountryCode(language: String): String {
+        return when (language) {
+            "Arabic" -> "SA"
+            "Bulgarian" -> "BG"
+            "Catalan" -> "ES"
+            "Chinese" -> "CN"
+            "Croatian" -> "HR"
+            "Czech" -> "CZ"
+            "Danish" -> "DK"
+            "Dutch" -> "NL"
+            "English" -> "US"
+            "Farsi" -> "IR"
+            "Finnish" -> "FI"
+            "French" -> "FR"
+            "German" -> "DE"
+            "Greek" -> "GR"
+            "Hindi" -> "IN"
+            "Hungarian" -> "HU"
+            "Indonesian" -> "ID"
+            "Italian" -> "IT"
+            "Japanese" -> "JP"
+            "Korean" -> "KR"
+            "Latvian" -> "LV"
+            "Lithuanian" -> "LT"
+            "Norwegian" -> "NO"
+            "Polish" -> "PL"
+            "Portuguese" -> "BR" // Utilizando Brasil como el país predeterminado para el portugués
+            "Romanian" -> "RO"
+            "Russian" -> "RU"
+            "Slovak" -> "SK"
+            "Slovenian" -> "SI"
+            "Spanish" -> "ES"
+            "Swedish" -> "SE"
+            "Thai" -> "TH"
+            "Turkish" -> "TR"
+            "Ukrainian" -> "UA"
+            "Vietnamese" -> "VN"
+            else -> "" // Manejar caso por defecto o desconocido
+        }
+    }
+
+    fun getLanguageByCountryCode(countryCode: String): String {
+        return when (countryCode) {
+            "SA" -> "Arabic"
+            "BG" -> "Bulgarian"
+            "ES" -> "Catalan"
+            "CN" -> "Chinese"
+            "HR" -> "Croatian"
+            "CZ" -> "Czech"
+            "DK" -> "Danish"
+            "NL" -> "Dutch"
+            "US" -> "English"
+            "IR" -> "Farsi"
+            "FI" -> "Finnish"
+            "FR" -> "French"
+            "DE" -> "German"
+            "GR" -> "Greek"
+            "IN" -> "Hindi"
+            "HU" -> "Hungarian"
+            "ID" -> "Indonesian"
+            "IT" -> "Italian"
+            "JP" -> "Japanese"
+            "KR" -> "Korean"
+            "LV" -> "Latvian"
+            "LT" -> "Lithuanian"
+            "NO" -> "Norwegian"
+            "PL" -> "Polish"
+            "BR" -> "Portuguese"
+            "RO" -> "Romanian"
+            "RU" -> "Russian"
+            "SK" -> "Slovak"
+            "SI" -> "Slovenian"
+            "ES" -> "Spanish"
+            "SE" -> "Swedish"
+            "TH" -> "Thai"
+            "TR" -> "Turkish"
+            "UA" -> "Ukrainian"
+            "VN" -> "Vietnamese"
+            else -> "" // Manejar caso por defecto o desconocido
+        }
+    }
+
+
 
     fun getFlagEmoji(countryCode: String): String {
         if (countryCode.isEmpty() || countryCode.length != 2) {
@@ -63,106 +175,6 @@ object Utils {
 
         // Retornamos la concatenación de los caracteres correspondientes a las letras del código del país.
         return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
-    }
-
-    fun getCountryCode(language: String): String {
-        return when (language) {
-            "English" -> "GB" // Reino Unido
-            "Welsh" -> "GB" // Gales, parte del Reino Unido
-            "Hindi" -> "IN" // India
-            "Urdu" -> "PK" // Pakistán
-            "Afrikaans" -> "ZA" // Sudáfrica
-            "Arabic" -> "SA" // Arabia Saudita
-            "Belarusian" -> "BY" // Bielorrusia
-            "Bulgarian" -> "BG" // Bulgaria
-            "Bengali" -> "BD" // Bangladés
-            "Catalan" -> "ES" // España, específicamente Cataluña
-            "Czech" -> "CZ" // República Checa
-            "Danish" -> "DK" // Dinamarca
-            "Dutch" -> "NL" // Países Bajos
-            "Finnish" -> "FI" // Finlandia
-            "French" -> "FR" // Francia
-            "German" -> "DE" // Alemania
-            "Greek" -> "GR" // Grecia
-            "Hungarian" -> "HU" // Hungría
-            "Italian" -> "IT" // Italia
-            "Japanese" -> "JP" // Japón
-            "Korean" -> "KR" // Corea del Sur
-            "Norwegian" -> "NO" // Noruega
-            "Polish" -> "PL" // Polonia
-            "Portuguese" -> "PT" // Portugal
-            "Russian" -> "RU" // Rusia
-            "Spanish" -> "ES" // España
-            "Swedish" -> "SE" // Suecia
-            "Turkish" -> "TR" // Turquía
-            else -> "" // Manejar caso por defecto o desconocido
-        }
-    }
-
-    fun getLanguageFirebaseCode(language: String): Int {
-        return when (language) {
-            "English" -> FirebaseTranslateLanguage.EN
-            "Welsh" -> FirebaseTranslateLanguage.CY
-            "Hindi" -> FirebaseTranslateLanguage.HI
-            "Urdu" -> FirebaseTranslateLanguage.UR
-            "Afrikaans" -> FirebaseTranslateLanguage.AF
-            "Arabic" -> FirebaseTranslateLanguage.AR
-            "Belarusian" -> FirebaseTranslateLanguage.BE
-            "Bulgarian" -> FirebaseTranslateLanguage.BG
-            "Bengali" -> FirebaseTranslateLanguage.BN
-            "Catalan" -> FirebaseTranslateLanguage.CA
-            "Czech" -> FirebaseTranslateLanguage.CS
-            "Danish" -> FirebaseTranslateLanguage.DA
-            "Dutch" -> FirebaseTranslateLanguage.NL
-            "Finnish" -> FirebaseTranslateLanguage.FI
-            "French" -> FirebaseTranslateLanguage.FR
-            "German" -> FirebaseTranslateLanguage.DE
-            "Greek" -> FirebaseTranslateLanguage.EL
-            "Hungarian" -> FirebaseTranslateLanguage.HU
-            "Italian" -> FirebaseTranslateLanguage.IT
-            "Japanese" -> FirebaseTranslateLanguage.JA
-            "Korean" -> FirebaseTranslateLanguage.KO
-            "Norwegian" -> FirebaseTranslateLanguage.NO
-            "Polish" -> FirebaseTranslateLanguage.PL
-            "Portuguese" -> FirebaseTranslateLanguage.PT
-            "Russian" -> FirebaseTranslateLanguage.RU
-            "Spanish" -> FirebaseTranslateLanguage.ES
-            "Swedish" -> FirebaseTranslateLanguage.SV
-            "Turkish" -> FirebaseTranslateLanguage.TR
-            else -> FirebaseTranslateLanguage.EN // Default or consider throwing an error
-        }
-    }
-
-    fun getLanguageByCountryCode(countryCode: String): String {
-        return when (countryCode) {
-            "GB" -> "English" // Asumiendo Inglés por defecto para el Reino Unido
-            "IN" -> "Hindi"
-            "PK" -> "Urdu"
-            "ZA" -> "Afrikaans"
-            "SA" -> "Arabic"
-            "BY" -> "Belarusian"
-            "BG" -> "Bulgarian"
-            "BD" -> "Bengali"
-            "ES" -> "Spanish"
-            "CZ" -> "Czech"
-            "DK" -> "Danish"
-            "NL" -> "Dutch"
-            "FI" -> "Finnish"
-            "FR" -> "French"
-            "DE" -> "German"
-            "GR" -> "Greek"
-            "HU" -> "Hungarian"
-            "IT" -> "Italian"
-            "JP" -> "Japanese"
-            "KR" -> "Korean"
-            "NO" -> "Norwegian"
-            "PL" -> "Polish"
-            "PT" -> "Portuguese"
-            "RU" -> "Russian"
-            "SE" -> "Swedish"
-            "TR" -> "Turkish"
-            else -> "" // Manejar caso por defecto o desconocido
-        }
     }
 
     fun recargarActividad(context: Context) {
