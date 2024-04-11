@@ -1,6 +1,7 @@
 package com.example.linguaforge.activitys
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.linguaforge.R
+import com.example.linguaforge.models.utils.Utils
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 
 class JugarActivity : AppCompatActivity() {
@@ -19,6 +21,8 @@ class JugarActivity : AppCompatActivity() {
     private var imageModo2: ImageView? = null
     private var imageModo3: ImageView? = null
     private var imageModo4: ImageView? = null
+    private var clave: String? = "null"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,6 +32,7 @@ class JugarActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        clave = intent.getStringExtra("clave") ?: ""
         imageModo1 = findViewById(R.id.imageModo1)
         imageModo2 = findViewById(R.id.imageModo2)
         imageModo3 = findViewById(R.id.imageModo3)
@@ -59,7 +64,10 @@ class JugarActivity : AppCompatActivity() {
 
 
     fun irModo1(view: View) {
-       println(FirebaseTranslateLanguage.getAllLanguages())
+
+        val intent = Intent(this, Modo1Activity::class.java)
+        intent.putExtra("clave",  clave)
+        startActivity(intent)
     }
     fun irModo3(view: View) {}
     fun irModo2(view: View) {}

@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 
 object Utils {
     val idiomas = arrayOf(
-        "Arabic", "Bulgarian", "Catalan", "Chinese", "Croatian", "Czech",
+        "Arabic", "Bulgarian", "Chinese", "Croatian", "Czech",
         "Danish", "Dutch", "English", "Farsi",  "Finnish",
         "French", "German", "Greek",  "Hindi", "Hungarian", "Indonesian",
         "Italian", "Japanese", "Korean", "Latvian", "Lithuanian", "Norwegian",
@@ -21,7 +21,7 @@ object Utils {
     )
 
     val idiomasConBanderas = mapOf(
-        "Arabic" to "🇸🇦", "Bulgarian" to "🇧🇬", "Catalan" to "🇪🇸",
+        "Arabic" to "🇸🇦", "Bulgarian" to "🇧🇬",
         "Chinese" to "🇨🇳", "Croatian" to "🇭🇷", "Czech" to "🇨🇿",
         "Danish" to "🇩🇰", "Dutch" to "🇳🇱", "English" to "🇺🇸",
         "Farsi" to "🇮🇷",  "Finnish" to "🇫🇮", "French" to "🇫🇷",
@@ -40,7 +40,6 @@ object Utils {
         return when (language) {
             "Arabic" -> FirebaseTranslateLanguage.AR
             "Bulgarian" -> FirebaseTranslateLanguage.BG
-            "Catalan" -> FirebaseTranslateLanguage.CA
             "Chinese" -> FirebaseTranslateLanguage.ZH
             "Croatian" -> FirebaseTranslateLanguage.HR
             "Czech" -> FirebaseTranslateLanguage.CS
@@ -81,7 +80,6 @@ object Utils {
         return when (language) {
             "Arabic" -> "SA"
             "Bulgarian" -> "BG"
-            "Catalan" -> "ES"
             "Chinese" -> "CN"
             "Croatian" -> "HR"
             "Czech" -> "CZ"
@@ -122,7 +120,6 @@ object Utils {
         return when (countryCode) {
             "SA" -> "Arabic"
             "BG" -> "Bulgarian"
-            "ES" -> "Catalan"
             "CN" -> "Chinese"
             "HR" -> "Croatian"
             "CZ" -> "Czech"
@@ -308,6 +305,30 @@ object Utils {
         } else {
             // Si la lista de palabras es nula, retorna 0
             return@runBlocking 0
+        }
+    }
+
+    fun obtenerPalabrasPorClave(clave: String): List<List<String>> = runBlocking {
+        // Obtiene la lista actual de palabras, que es un array de mapas
+        val palabras: MutableList<Map<String, List<List<String>>>>? = UtilsDB.getPalabras()?.toMutableList()
+
+        if (palabras != null) {
+            // Encuentra el mapa que corresponde a la clave proporcionada
+            val mapaEspecifico = palabras.find { it.containsKey(clave) }
+
+            if (mapaEspecifico != null) {
+                // Obtiene la lista de listas de palabras asociada a la clave
+                val listaDeListasPalabras = mapaEspecifico[clave]
+
+                // Retorna la lista de listas de palabras
+                return@runBlocking listaDeListasPalabras ?: emptyList()
+            } else {
+                // Si la clave no se encuentra, retorna una lista vacía
+                return@runBlocking emptyList()
+            }
+        } else {
+            // Si la lista de palabras es nula, retorna una lista vacía
+            return@runBlocking emptyList()
         }
     }
 

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/degradado_fondo"
+    tools:context=".activitys.Modo1Activity">
+
+    <!-- Container for Top ImageViews -->
+    <LinearLayout
+        android:id="@+id/topImagesContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        <ImageView
+            android:id="@+id/vidas"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_lapiz"
+            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/imageViewTopLeft"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+               android:text="X3"
+                android:textColor="#FFFFFF"
+                android:gravity="left|center_vertical"
+                android:textSize="40dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/imageViewTopCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="(0/10)"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/imageViewTopRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_flecha_atras"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- Container for Center TextView -->
+    <LinearLayout
+        android:id="@+id/centerTextContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/topImagesContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/newTextViewContainer">
+
+        <TextView
+
+            android:id="@+id/palabra"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="50dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:textSize="50dp"
+            android:text="Piwo" />
+    </LinearLayout>
+
+    <!-- New LinearLayout with TextView -->
+    <LinearLayout
+        android:id="@+id/newTextViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/centerTextContainer"
+        app:layout_constraintBottom_toTopOf="@id/bottomTextsContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/pregunta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:background="#EEEEEE"
+            android:text="¿Que es piwo?" />
+    </LinearLayout>
+
+    <!-- Container for Bottom TextViews -->
+    <GridLayout
+        android:id="@+id/bottomTextsContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:rowCount="2"
+        android:columnCount="2"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/newTextViewContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/respuesta1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:text="medusa" />
+
+        <TextView
+            android:id="@+id/respuesta2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:text="pelusa" />
+
+        <TextView
+            android:id="@+id/respuesta3"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:text="cerveza" />
+
+        <TextView
+            android:id="@+id/respuesta4"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:text="mariposa" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

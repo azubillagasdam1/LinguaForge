@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.linguaforge">
+    package="com.example.linguaforge" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -16,14 +16,17 @@
         android:roundIcon="@drawable/translate"
         android:supportsRtl="true"
         android:theme="@style/Theme.LinguaForge"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".activitys.Modo1Activity"
+            android:exported="false" />
         <activity
             android:name=".activitys.JugarActivity"
             android:exported="false" />
         <activity
             android:name=".activitys.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +44,7 @@
         <activity
             android:name=".activitys.TraductorActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
