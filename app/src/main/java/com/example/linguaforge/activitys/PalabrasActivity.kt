@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -36,12 +39,14 @@ class PalabrasActivity : AppCompatActivity() {
     private var jugarButton: ImageView? = null
     private var recyclerView: RecyclerView? = null
     private var fondo: LinearLayout? = null
+    private lateinit var textViewIzquierdo: TextView
+    private lateinit var textViewDerecho: TextView
     private lateinit var itemPalabra: List<ItemPalabra>
     private lateinit var idioma1: String
     private lateinit var idioma2: String
     private lateinit var clave: String
-    private lateinit var textViewIzquierdo: TextView
-    private lateinit var textViewDerecho: TextView
+    private var ordenacion: Int = 1 //0-1 default, 2 a-z original, 3 a-ztraduccion,4 a-z original-desc, 5 a-ztraduccion-desc,
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -56,6 +61,8 @@ class PalabrasActivity : AppCompatActivity() {
         idioma1 = intent.getStringExtra("idioma1") ?: ""
         idioma2 = intent.getStringExtra("idioma2") ?: ""
         clave = idioma1 + "-" + idioma2
+
+
         textViewIzquierdo = findViewById<TextView>(R.id.textViewIzquierdo)
         textViewDerecho = findViewById<TextView>(R.id.textViewDerecho)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -63,7 +70,7 @@ class PalabrasActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        crearRecyclerView(this)
+        crearRecyclerView(this, ordenacion)
 
         jugarButton?.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -91,6 +98,35 @@ class PalabrasActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+
+        val spinner: Spinner = findViewById(R.id.filtroSpinner)
+// Valores que ve el usuario
+        val nombresOrdenacion =
+            arrayOf("Inserción", "Original A-Z", "Traducción A-Z", "Original Z-A", "Traducción Z-A")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, nombresOrdenacion)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+// Maneja la selección del usuario
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                // Obtiene el índice seleccionado y lo usa para determinar la ordenación
+                val seleccionado = position + 1  // Ajusta según la correspondencia con los números
+                ordenacion = seleccionado
+                onResume()  // Llama a onResume, aunque puede ser más adecuado llamar a una función específica de ordenación aquí
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Acción para cuando no se selecciona nada
+            }
+        }
+
         ponerFondo()
     }
 
@@ -125,11 +161,11 @@ class PalabrasActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // Este método se llama cada vez que la actividad entra en el primer plano.
-        crearRecyclerView(this)
+        crearRecyclerView(this,ordenacion)
     }
 
 
-    private fun crearRecyclerView(context: Context) = runBlocking {
+    private fun crearRecyclerView(context: Context, modoOrdenacion: Int) = runBlocking {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
@@ -138,28 +174,36 @@ class PalabrasActivity : AppCompatActivity() {
         val palabrasList = UtilsDB.getPalabras() ?: listOf()
 
         // Asumiendo que `clave` es la clave para buscar en el mapa de idiomas.
-        val listaDePalabras = palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
+        val listaDePalabrasBruta = palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
+
+        // Determinar el orden de la lista según modoOrdenacion
+        val listaDePalabras = when (modoOrdenacion) {
+            2 -> listaDePalabrasBruta.sortedBy { it[0] }
+            3 -> listaDePalabrasBruta.sortedBy { it[1] }
+            4 -> listaDePalabrasBruta.sortedByDescending { it[0] }
+            5 -> listaDePalabrasBruta.sortedByDescending { it[1] }
+            else -> listaDePalabrasBruta
+        }
 
         itemPalabra = listaDePalabras.map {
             ItemPalabra(
                 clave,
                 it[0], // Palabra
                 it[1] // Traducción
-                // Clave del idioma
             )
         }
 
-        recyclerView?.adapter =
-            MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    onItemClicked(position)
-                }
+        recyclerView?.adapter = MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                onItemClicked(position)
+            }
 
-                override fun onItemLongClick(position: Int) {
-                    onItemLongClicked(position)
-                }
-            })
+            override fun onItemLongClick(position: Int) {
+                onItemLongClicked(position)
+            }
+        })
     }
+
 
 
     private fun onItemClicked(position: Int) {

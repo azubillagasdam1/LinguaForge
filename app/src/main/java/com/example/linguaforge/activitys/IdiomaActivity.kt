@@ -62,6 +62,7 @@ class IdiomaActivity : AppCompatActivity() {
                     v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).start()
                     true
                 }
+
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
                     if (event.action == MotionEvent.ACTION_UP) {
@@ -70,11 +71,12 @@ class IdiomaActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 else -> false
             }
         }
 
-       ponerFondo()
+        ponerFondo()
     }
 
     private fun ponerFondo() {
@@ -112,15 +114,16 @@ class IdiomaActivity : AppCompatActivity() {
                 )
             }
 
-            recyclerView?.adapter = MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    onItemClicked(position)
-                }
+            recyclerView?.adapter =
+                MyIdiomaAdapter(itemIdiomas, object : MyIdiomaAdapter.OnItemClickListener {
+                    override fun onItemClick(position: Int) {
+                        onItemClicked(position)
+                    }
 
-                override fun onItemLongClick(position: Int) {
-                    onItemLongClicked(position)
-                }
-            })
+                    override fun onItemLongClick(position: Int) {
+                        onItemLongClicked(position)
+                    }
+                })
         }
     }
 
@@ -129,7 +132,7 @@ class IdiomaActivity : AppCompatActivity() {
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
         val intent = Intent(this, PalabrasActivity::class.java)
-        intent.putExtra("idioma1",  Utils.getCountryCode(item.idioma1))
+        intent.putExtra("idioma1", Utils.getCountryCode(item.idioma1))
         intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
 
@@ -164,10 +167,6 @@ class IdiomaActivity : AppCompatActivity() {
 
         dialog.show()
     }
-
-
-
-
 
 
     fun cerrarSesion(view: View) {
