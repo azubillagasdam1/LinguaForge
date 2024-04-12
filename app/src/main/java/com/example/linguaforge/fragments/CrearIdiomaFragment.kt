@@ -16,6 +16,8 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.example.linguaforge.R
 import com.example.linguaforge.models.utils.Utils
+import java.util.Locale;
+
 
 
 class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment() {
@@ -39,23 +41,36 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
 
 
 
+
+
+
+        val idiomaDispositivo = Locale.getDefault().language
+        val idiomaDispositivoNombre = Utils.getLanguageByCountryCode(idiomaDispositivo.uppercase(Locale.US)) // Convertimos el código de idioma a mayúsculas para coincidir con tu mapa
+
+// Crear el adaptador y asignarlo al spinner
         val adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomasConBanderas.values.toList())
         spinnerIdioma1.adapter = adapter1
-// Establecer el listener para el spinner
 
+// Establecer el idioma predeterminado basado en el idioma del dispositivo o español
+        val idiomaPredeterminado = if (idiomaDispositivoNombre.isNotEmpty()) idiomaDispositivoNombre else "English"
+        val posicionIdiomaPredeterminado = Utils.idiomasConBanderas.keys.toList().indexOf(idiomaPredeterminado)
+        if (posicionIdiomaPredeterminado >= 0) {
+            spinnerIdioma1.setSelection(posicionIdiomaPredeterminado)
+        }
+
+// Establecer el listener para el spinner
         spinnerIdioma1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Aquí obtenemos el nombre del idioma basado en la posición del emoji seleccionado
                 idioma1Seleccionado = Utils.idiomasConBanderas.keys.toList()[position]
                 // Aunque mostramos emojis en el spinner, guardamos el nombre del idioma correspondiente
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Opcional: Manejar cualquier caso donde no se selecciona ningún elemento
             }
-
         }
+
 
 
 
