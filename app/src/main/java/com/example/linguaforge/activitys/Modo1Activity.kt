@@ -1,8 +1,11 @@
 package com.example.linguaforge.activitys
 
+import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
@@ -22,6 +25,11 @@ import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
+import android.media.MediaPlayer
+import android.os.Vibrator
+import androidx.core.content.ContextCompat
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 
 class Modo1Activity : AppCompatActivity() {
     private final var MAXIMO_VIDAS: Int = 3
@@ -35,10 +43,10 @@ class Modo1Activity : AppCompatActivity() {
     private var respuesta4: TextView? = null
     private var marcador: TextView? = null
     private var marcadorVidas: TextView? = null
+    private var corazonImageView: ImageView? = null
     private var respuestaCorrecta: String? = null // Variable para almacenar la respuesta correcta
     private var aciertos: Int? = 0 // Variable para almacenar la respuesta correcta
     private var jugadas: Int? = 0 // Variable para almacenar la respuesta correcta
-
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -62,46 +70,47 @@ class Modo1Activity : AppCompatActivity() {
         respuesta4 = findViewById(R.id.respuesta4)
         marcador = findViewById(R.id.marcadorTextView)
         marcadorVidas = findViewById(R.id.marcadorVidasTextView)
+        corazonImageView = findViewById(R.id.corazonImageView)
         cargarPalabras()
 
-        // Definir onTouchListeners para los TextViews de respuesta
-        // Definir onTouchListeners para los TextViews de respuesta
-        respuesta1?.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                comprobarJugada(respuesta1!!)
-            }
-            true // Retorna true para indicar que el evento ha sido manejado
-        }
-
-        respuesta2?.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                comprobarJugada(respuesta2!!)
-            }
-            true
-        }
-
-        respuesta3?.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                comprobarJugada(respuesta3!!)
-            }
-            true
-        }
-
-        respuesta4?.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                comprobarJugada(respuesta4!!)
-            }
-            true
-        }
+        configurarListenersRespuestas(respuesta1!!)
+        configurarListenersRespuestas(respuesta2!!)
+        configurarListenersRespuestas(respuesta3!!)
+        configurarListenersRespuestas(respuesta4!!)
 
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun configurarListenersRespuestas(textView: TextView) {
+        textView.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Escalar a 1.1 veces el tamaño original en ambos ejes
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(150).start()
+                }
+
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    // Volver al tamaño original
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start()
+
+                    // Comprobar la jugada solo si se levanta el dedo del elemento
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        comprobarJugada(textView)
+                    }
+                }
+            }
+            true
+        }
+    }
+
+
     private fun actualizarMarcador() {
         val totalJugadas = palabras?.size ?: 9999
         val totalAciertos = aciertos ?: 0
         val totalJugadasRealizadas = jugadas ?: 0
         // Los fallos son el total de jugadas menos los aciertos.
         val totalFallos = totalJugadasRealizadas - totalAciertos
-        if(totalFallos>MAXIMO_VIDAS){
+        if (totalFallos > MAXIMO_VIDAS) {
             finalizar()
         }
         marcador?.text = "$totalJugadasRealizadas / $totalJugadas"
@@ -111,13 +120,11 @@ class Modo1Activity : AppCompatActivity() {
     }
 
 
-
-
-
     private fun obtenerPalabras() = runBlocking {
         palabras = Utils.obtenerPalabrasPorClave(clave)?.shuffled()
 
     }
+
     private fun cargarPalabras() {
         // Asegurarse de que hay palabras y el índice no supera el tamaño de la lista
         if (palabras != null && palabras!!.isNotEmpty() && jugadas!! < palabras!!.size) {
@@ -154,7 +161,7 @@ class Modo1Activity : AppCompatActivity() {
             resetearEstilo(respuesta4)
 
 
-        }else{
+        } else {
             finalizar()
         }
     }
@@ -164,17 +171,35 @@ class Modo1Activity : AppCompatActivity() {
     }
 
     private fun resetearEstilo(textView: TextView?) {
-        textView?.setBackgroundColor(Color.WHITE) // Cambiado a blanco
+        // Obtener el Drawable del archivo XML y establecerlo como background
+        textView?.background = ContextCompat.getDrawable(this, R.drawable.style_textview)
+
+        // Establecer el color del texto a negro
         textView?.setTextColor(Color.BLACK)
     }
+
+
     fun comprobarJugada(textViewElegida: TextView) {
         val acierto = textViewElegida.text.equals(respuestaCorrecta)
-
         if (acierto) {
             aciertos = aciertos!! + 1
             colorRespuesta(textViewElegida, true)
+            val mediaPlayer = MediaPlayer.create(this, R.raw.correct_sound)
+            mediaPlayer.start()
         } else {
             colorRespuesta(textViewElegida, false)
+            animacionPerdidaVida()
+
+            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibrator.vibrate(500)
+            // Vibrar por 500 milisegundos
+
+
+            val mediaPlayer = MediaPlayer.create(
+                this,
+                R.raw.error_sound
+            ) // Suponiendo que tienes un archivo error_sound.mp3 en res/raw
+            mediaPlayer.start()
         }
 
         // Incrementar jugadas aquí garantiza que se cuenta cada intento correctamente.
@@ -190,23 +215,47 @@ class Modo1Activity : AppCompatActivity() {
     }
 
 
-
     private fun colorRespuesta(textView: TextView, esCorrecto: Boolean) {
         // Establecer el color del texto a blanco
         textView.setTextColor(Color.WHITE)
 
-        // Definir el color de fondo a verde o rojo
-        val colorDestino = if (esCorrecto) 0xFF00FF00.toInt() else 0xFFFF0000.toInt()
-
-        // Cambiar inmediatamente el color de fondo
-        textView.setBackgroundColor(colorDestino)
-
-
+        // Obtener el Drawable correspondiente y establecerlo como background
+        val drawableId = if (esCorrecto) R.drawable.style_acierto_textview else R.drawable.style_error_textview
+        val background = ContextCompat.getDrawable(this, drawableId)
+        textView.background = background
     }
+
 
     fun irAtras(view: View) {
         onBackPressed()
     }
+
+    fun animacionPerdidaVida() {
+        val corazonImageView = findViewById<ImageView>(R.id.corazonImageView)
+
+        // Define los colores para la animación.
+        val colorOriginal = ContextCompat.getColor(this, R.color.azulOscuro)
+        val colorRojo = ContextCompat.getColor(this, android.R.color.holo_red_dark)
+
+        // Crea y configura la animación de cambio de color.
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorRojo, colorOriginal)
+        colorAnimation.duration = 1000 // Duración en milisegundos
+        colorAnimation.addUpdateListener { animator ->
+            corazonImageView.setColorFilter(animator.animatedValue as Int, PorterDuff.Mode.SRC_IN)
+        }
+
+        // Inicia la animación de cambio de color.
+        colorAnimation.start()
+
+        // Inicia la animación de pulso con YoYo.
+        YoYo.with(Techniques.Swing)
+            .duration(100).repeat(5)
+            .playOn(corazonImageView)
+        YoYo.with(Techniques.Swing)
+            .duration(300).delay(500)
+            .playOn(corazonImageView)
+    }
+
 
 
 }

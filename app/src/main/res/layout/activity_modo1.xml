@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/degradado_fondo"
+    android:background="#ADD8E6"
     tools:context=".activitys.Modo1Activity">
 
     <!-- Container for Top ImageViews -->
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
         <ImageView
-            android:id="@+id/vidas"
+            android:id="@+id/corazonImageView"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:src="@drawable/svg_corazon"
@@ -81,7 +81,7 @@
             android:layout_height="match_parent"
             android:layout_margin="50dp"
             android:gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/style_textview"
             android:textSize="50dp"
             android:text="Piwo" />
     </LinearLayout>
@@ -130,7 +130,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/style_textview"
             android:text="medusa" />
 
         <TextView
@@ -142,7 +142,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/style_textview"
             android:text="pelusa" />
 
         <TextView
@@ -154,7 +154,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/style_textview"
             android:text="cerveza" />
 
         <TextView
@@ -166,7 +166,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/style_textview"
             android:text="mariposa" />
     </GridLayout>
 

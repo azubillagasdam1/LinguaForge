@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -64,6 +65,9 @@ class IdiomaActivity : AppCompatActivity() {
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+                    mediaPlayer.start()
+
                     v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
                     if (event.action == MotionEvent.ACTION_UP) {
                         val fragmentManager = supportFragmentManager
@@ -129,6 +133,8 @@ class IdiomaActivity : AppCompatActivity() {
 
     private fun onItemClicked(position: Int) {
         val item = itemIdiomas[position]
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+        mediaPlayer.start()
         Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
         val intent = Intent(this, PalabrasActivity::class.java)
@@ -170,6 +176,8 @@ class IdiomaActivity : AppCompatActivity() {
 
 
     fun cerrarSesion(view: View) {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
+        mediaPlayer.start()
         FirebaseDB.signOut()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
@@ -177,6 +185,8 @@ class IdiomaActivity : AppCompatActivity() {
     }
 
     fun cerrarFragment(view: View) {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
+        mediaPlayer.start()
         val fragment = supportFragmentManager.findFragmentByTag("CrearIdiomaFragment")
         if (fragment is CrearIdiomaFragment) {
             fragment.dismiss()

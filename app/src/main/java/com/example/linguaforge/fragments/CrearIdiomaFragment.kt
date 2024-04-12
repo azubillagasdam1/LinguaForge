@@ -2,6 +2,7 @@ package com.example.linguaforge.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -57,13 +58,20 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         if (posicionIdiomaPredeterminado >= 0) {
             spinnerIdioma1.setSelection(posicionIdiomaPredeterminado)
         }
-
+        var sonido1 = false
 // Establecer el listener para el spinner
         spinnerIdioma1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+
+                if(sonido1){
+                    val mediaPlayer = MediaPlayer.create(contextoElegirActivity, R.raw.click_go_sound)
+                    mediaPlayer.start()
+                }
+                    sonido1 = true
                 // Aquí obtenemos el nombre del idioma basado en la posición del emoji seleccionado
                 idioma1Seleccionado = Utils.idiomasConBanderas.keys.toList()[position]
                 // Aunque mostramos emojis en el spinner, guardamos el nombre del idioma correspondiente
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -76,7 +84,7 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
 
 
 
-
+        var sonido2 = false
         val adapter2 =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Utils.idiomas)
         spinnerIdioma2.adapter = adapter2
@@ -88,6 +96,11 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
                 position: Int,
                 id: Long
             ) {
+                if(sonido2){
+                    val mediaPlayer = MediaPlayer.create(contextoElegirActivity, R.raw.click_go_sound)
+                    mediaPlayer.start()
+                }
+                sonido2 = true
                  idioma2Seleccionado = Utils.idiomas[position]  // Obtiene el idioma seleccionado
                 // Obtén el código del país para el idioma y luego el emoji de la bandera
                 val countryCode = Utils.getCountryCode(idioma2Seleccionado!!)
@@ -103,6 +116,8 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
         }
 
         crearButton.setOnClickListener {
+            val mediaPlayer = MediaPlayer.create(contextoElegirActivity, R.raw.click_go_sound)
+            mediaPlayer.start()
             Utils.anadirIdioma(tituloEditText.text.toString(),subtituloEditText.text.toString(),idioma1Seleccionado!!,idioma2Seleccionado!!)
             Utils.recargarActividad(contextoElegirActivity)
             closeFragment()
@@ -127,6 +142,7 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
     }
 
     fun closeFragment() {
+
         dismiss()
 
     }

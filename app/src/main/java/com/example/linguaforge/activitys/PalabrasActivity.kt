@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -45,8 +46,8 @@ class PalabrasActivity : AppCompatActivity() {
     private lateinit var idioma1: String
     private lateinit var idioma2: String
     private lateinit var clave: String
-    private var ordenacion: Int = 1 //0-1 default, 2 a-z original, 3 a-ztraduccion,4 a-z original-desc, 5 a-ztraduccion-desc,
-
+    private var ordenacion: Int =
+        1 //0-1 default, 2 a-z original, 3 a-ztraduccion,4 a-z original-desc, 5 a-ztraduccion-desc,
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,13 +86,7 @@ class PalabrasActivity : AppCompatActivity() {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> true
                 MotionEvent.ACTION_UP -> {
-
-                    val fragmentManager = supportFragmentManager
-                    val intent = Intent(this, TraductorActivity::class.java)
-                    intent.putExtra("idioma1", idioma1)
-                    intent.putExtra("idioma2", idioma2)
-                    intent.putExtra("clave", clave)
-                    startActivity(intent)
+                    irAnadir()
                     true
                 }
 
@@ -116,10 +111,11 @@ class PalabrasActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+
                 // Obtiene el índice seleccionado y lo usa para determinar la ordenación
                 val seleccionado = position + 1  // Ajusta según la correspondencia con los números
                 ordenacion = seleccionado
-                onResume()  // Llama a onResume, aunque puede ser más adecuado llamar a una función específica de ordenación aquí
+                onResume()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -130,7 +126,19 @@ class PalabrasActivity : AppCompatActivity() {
         ponerFondo()
     }
 
+    private fun irAnadir() {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+        mediaPlayer.start()
+        val intent = Intent(this, TraductorActivity::class.java)
+        intent.putExtra("idioma1", idioma1)
+        intent.putExtra("idioma2", idioma2)
+        intent.putExtra("clave", clave)
+        startActivity(intent)
+    }
+
     private fun irJugar() {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+        mediaPlayer.start()
         val intent = Intent(this, JugarActivity::class.java)
         intent.putExtra("clave", clave)
         startActivity(intent)
@@ -161,7 +169,7 @@ class PalabrasActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // Este método se llama cada vez que la actividad entra en el primer plano.
-        crearRecyclerView(this,ordenacion)
+        crearRecyclerView(this, ordenacion)
     }
 
 
@@ -174,7 +182,8 @@ class PalabrasActivity : AppCompatActivity() {
         val palabrasList = UtilsDB.getPalabras() ?: listOf()
 
         // Asumiendo que `clave` es la clave para buscar en el mapa de idiomas.
-        val listaDePalabrasBruta = palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
+        val listaDePalabrasBruta =
+            palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
 
         // Determinar el orden de la lista según modoOrdenacion
         val listaDePalabras = when (modoOrdenacion) {
@@ -193,20 +202,22 @@ class PalabrasActivity : AppCompatActivity() {
             )
         }
 
-        recyclerView?.adapter = MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                onItemClicked(position)
-            }
+        recyclerView?.adapter =
+            MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    onItemClicked(position)
+                }
 
-            override fun onItemLongClick(position: Int) {
-                onItemLongClicked(position)
-            }
-        })
+                override fun onItemLongClick(position: Int) {
+                    onItemLongClicked(position)
+                }
+            })
     }
 
 
-
     private fun onItemClicked(position: Int) {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+        mediaPlayer.start()
         val item = itemPalabra[position]
         Toast.makeText(this, "Tocado: ${item.traduccion}", Toast.LENGTH_SHORT).show()
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
@@ -245,6 +256,8 @@ class PalabrasActivity : AppCompatActivity() {
 
 
     fun cerrarSesion(view: View) {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
+        mediaPlayer.start()
         FirebaseDB.signOut()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
@@ -252,6 +265,8 @@ class PalabrasActivity : AppCompatActivity() {
     }
 
     fun irAtras(view: View) {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
+        mediaPlayer.start()
         onBackPressed()
     }
 

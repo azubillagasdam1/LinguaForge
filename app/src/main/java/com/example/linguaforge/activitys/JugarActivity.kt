@@ -2,6 +2,7 @@ package com.example.linguaforge.activitys
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -55,6 +56,8 @@ class JugarActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     // Volver al tamaño original
+                    val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+                    mediaPlayer.start()
                     view.animate().scaleX(0.8f).scaleY(0.8f).setDuration(150).start()
                 }
             }

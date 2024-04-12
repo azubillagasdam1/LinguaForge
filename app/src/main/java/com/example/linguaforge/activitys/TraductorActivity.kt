@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -71,6 +72,8 @@ class TraductorActivity : AppCompatActivity() {
 
 
         micIV?.setOnClickListener {
+            val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
+            mediaPlayer.start()
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -239,7 +242,8 @@ class TraductorActivity : AppCompatActivity() {
 
 
     fun irAtras(view: View) {
-
+        val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
+        mediaPlayer.start()
         var palabra1vacia = sourceText?.text.isNullOrEmpty()
         var palabra2vacia = translatedText.isNullOrEmpty()
         var existeTraduccion = Utils.existeTraduccion(source, translatedText)
