@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linguaforge.ItemPalabra
 import com.example.linguaforge.MyPalabraAdapter
 import com.example.linguaforge.R
+import com.example.linguaforge.fragments.EditarPalabraFragment
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
@@ -36,6 +37,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class PalabrasActivity : AppCompatActivity() {
+
     private var anadirButton: ImageView? = null
     private var jugarButton: ImageView? = null
     private var recyclerView: RecyclerView? = null
@@ -171,9 +173,12 @@ class PalabrasActivity : AppCompatActivity() {
         // Este método se llama cada vez que la actividad entra en el primer plano.
         crearRecyclerView(this, ordenacion)
     }
+    fun recargar(){
+        onResume()
+    }
 
 
-    private fun crearRecyclerView(context: Context, modoOrdenacion: Int) = runBlocking {
+     private fun crearRecyclerView(context: Context, modoOrdenacion: Int) = runBlocking {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
@@ -205,6 +210,7 @@ class PalabrasActivity : AppCompatActivity() {
         recyclerView?.adapter =
             MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
+
                     onItemClicked(position)
                 }
 
@@ -218,9 +224,14 @@ class PalabrasActivity : AppCompatActivity() {
     private fun onItemClicked(position: Int) {
         val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
         mediaPlayer.start()
+
         val item = itemPalabra[position]
-        Toast.makeText(this, "Tocado: ${item.traduccion}", Toast.LENGTH_SHORT).show()
-        Log.d("ElegirActivity", "Item en posición $position fue tocado.")
+        var originalSeleccionada = item.original
+        var traduccionSeleccionada = item.traduccion
+
+        val fragmentManager = supportFragmentManager
+        EditarPalabraFragment(this,position,clave, originalSeleccionada,traduccionSeleccionada).show(fragmentManager, "EditarPalabraFragment")
+
 
     }
 

@@ -179,6 +179,9 @@ object Utils {
              (context as AppCompatActivity).recreate()
          }
      }
+
+
+
     fun salirAplicacion(activity: Activity){
         activity.finishAffinity()
     }
@@ -234,6 +237,29 @@ object Utils {
         UtilsDB.setPalabra(idiomas)
 
     }
+    fun anadirPalabraEnPosicion(idioma: String, palabra: String, traduccion: String, posicion: Int) = runBlocking {
+        var idiomas: MutableList<Map<String, List<List<String>>>>? = UtilsDB.getPalabras()?.toMutableList()
+        if (idiomas == null) {
+            idiomas = mutableListOf()
+        }
+        var mapaIdioma = idiomas.find { it.containsKey(idioma) }
+
+        if (mapaIdioma == null) {
+            mapaIdioma = mapOf(idioma to mutableListOf(listOf(palabra, traduccion)))
+            idiomas.add(mapaIdioma)
+        } else {
+            val traducciones = mapaIdioma[idioma]?.toMutableList() ?: mutableListOf()
+            // Asegurarse de que la posición no exceda el tamaño de la lista
+            val posicionSegura = posicion.coerceIn(0, traducciones.size)
+            // Insertar la nueva palabra y traducción en la posición especificada
+            traducciones.add(posicionSegura, listOf(palabra, traduccion))
+            mapaIdioma = mapOf(idioma to traducciones)
+            idiomas[idiomas.indexOfFirst { it.containsKey(idioma) }] = mapaIdioma
+        }
+
+        UtilsDB.setPalabra(idiomas)
+    }
+
 
     fun eliminarPalabra(clave: String, position: Int) = runBlocking {
         // Obtiene la lista actual de palabras, que es un array de mapas

@@ -29,6 +29,7 @@ import com.example.linguaforge.ItemIdioma
 import com.example.linguaforge.MyIdiomaAdapter
 import com.example.linguaforge.R
 import com.example.linguaforge.fragments.CrearIdiomaFragment
+import com.example.linguaforge.fragments.EditarPalabraFragment
 import com.example.linguaforge.models.db.FirebaseDB
 import com.example.linguaforge.models.utils.Utils
 import com.example.linguaforge.models.utils.UtilsDB
@@ -141,6 +142,7 @@ class IdiomaActivity : AppCompatActivity() {
         intent.putExtra("idioma1", Utils.getCountryCode(item.idioma1))
         intent.putExtra("idioma2", Utils.getCountryCode(item.idioma2))
         startActivity(intent)
+        finish()
 
     }
 
