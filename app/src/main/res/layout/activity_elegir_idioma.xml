@@ -52,13 +52,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/anadirBotton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#2196F3"
         android:text="+"
         android:textSize="56dp"
-        app:cornerRadius="100dp"
+        app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -79,12 +79,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginLeft="50dp"
             android:text="Seleccionar Idioma"
             android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="40dp"
             android:clickable="true"
             android:onClick="cerrarSesion"

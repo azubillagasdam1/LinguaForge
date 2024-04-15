@@ -6,16 +6,14 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.linguaforge.R
-import com.example.linguaforge.models.utils.Utils
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
+import com.example.linguaforge.activitys.juegos.Juego1Activity
+import com.example.linguaforge.activitys.juegos.Juego2Activity
 
 class JugarActivity : AppCompatActivity() {
     private var imageModo1: ImageView? = null
@@ -68,12 +66,16 @@ class JugarActivity : AppCompatActivity() {
 
     fun irModo1(view: View) {
 
-        val intent = Intent(this, Modo1Activity::class.java)
+        val intent = Intent(this, Juego1Activity::class.java)
+        intent.putExtra("clave",  clave)
+        startActivity(intent)
+    }
+    fun irModo2(view: View) {
+        val intent = Intent(this, Juego2Activity::class.java)
         intent.putExtra("clave",  clave)
         startActivity(intent)
     }
     fun irModo3(view: View) {}
-    fun irModo2(view: View) {}
     fun irModo4(view: View) {}
     fun irAtras(view: View) {
         onBackPressed()

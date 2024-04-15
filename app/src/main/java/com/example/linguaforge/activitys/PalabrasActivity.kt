@@ -158,12 +158,12 @@ class PalabrasActivity : AppCompatActivity() {
             // Una vez que tienes el resultado, actualiza la UI en el hilo principal
             if (numeroElementos == 0) {
                 fondo?.visibility = View.VISIBLE
-                textViewIzquierdo?.visibility = View.GONE
-                textViewDerecho?.visibility = View.GONE
+                textViewIzquierdo.visibility = View.GONE
+                textViewDerecho.visibility = View.GONE
             } else {
                 fondo?.visibility = View.GONE
-                textViewIzquierdo?.visibility = View.VISIBLE
-                textViewDerecho?.visibility = View.VISIBLE
+                textViewIzquierdo.visibility = View.VISIBLE
+                textViewDerecho.visibility = View.VISIBLE
             }
         }
     }

@@ -59,10 +59,10 @@
             android:id="@+id/imageModo1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar"
+            android:src="@drawable/svg_juego1"
             android:clickable="true"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
             android:onClick="irModo1"/>
 
         <TextView
@@ -73,7 +73,7 @@
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:gravity="center"
-            android:text="Modo 1" />
+            android:text="WordMatch" />
     </FrameLayout>
     <!-- Cuadrado 2 -->
     <FrameLayout
@@ -93,9 +93,9 @@
             android:id="@+id/imageModo2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/svg_jugar"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
+            android:src="@drawable/svg_juego2"
+            android:scaleX="1"
+            android:scaleY="1"
             android:clickable="true"
             android:onClick="irModo2"/>  <!-- Cambia el drawable según necesites -->
 
@@ -107,7 +107,7 @@
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:gravity="center"
-            android:text="Modo 2" />  <!-- Cambia el texto según necesites -->
+            android:text="WordCraft" />  <!-- Cambia el texto según necesites -->
     </FrameLayout>
     <!-- Cuadrado 3 -->
     <FrameLayout

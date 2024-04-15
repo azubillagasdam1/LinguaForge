@@ -31,7 +31,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:rotation="180"
                 android:src="@drawable/svg_flecha_atras" />
 
@@ -40,6 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="right"
                 android:layout_weight="1"
                 android:text="Subtítulo"
                 android:textSize="20dp" />
