@@ -42,7 +42,7 @@
             cargarPalabra()
 
             generarHuecos(respuestaCorrecta!!, 0)
-            generarCulebra(respuestaCorrecta!!)
+            generarCulebra(respuestarevuelta!!)
 
         }
 
@@ -137,7 +137,8 @@
                     }
                     isClickable = true
                     setOnClickListener {
-                        comprobarJugada(text.toString().uppercase())  // Asegura que se compara en mayúsculas
+                        // Aquí pasamos tanto la letra como el índice a comprobarJugada
+                        comprobarJugada(text.toString().uppercase(), i)
                     }
                 }
                 contenedor.addView(textView)
@@ -145,7 +146,8 @@
         }
 
 
-        private fun comprobarJugada(letra: String) {
+
+        private fun comprobarJugada(letra: String, index: Int) {
             if (aciertos!! < respuestaCorrecta!!.length && letra.equals(
                     respuestaCorrecta!![aciertos!!].toString(),
                     ignoreCase = true
@@ -156,13 +158,9 @@
                 mediaPlayer.start()
                 aciertos = aciertos!! + 1  // Incrementa el contador de aciertos
                 generarHuecos(respuestaCorrecta!!, aciertos!!)
-
-                // Eliminar la letra acertada de la respuesta revuelta, asegurando que se compara en mayúsculas
-                respuestarevuelta = respuestarevuelta!!.filterNot { it.toString().equals(letra, ignoreCase = true) }
-                if (aciertos!! < respuestaCorrecta!!.length) {
-                    generarCulebra(respuestarevuelta!!)
-                } else {
-                    // Acción para cuando se finaliza la palabra
+                respuestarevuelta = respuestarevuelta!!.removeRange(index, index + 1)
+                generarCulebra(respuestarevuelta!!)
+                if ((aciertos!! < respuestaCorrecta!!.length).not()) {
                     finish()
                 }
             } else {
