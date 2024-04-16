@@ -5,8 +5,67 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/degradado_fondo"
     tools:context=".activitys.juegos.Juego2Activity">
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/corazonImageView"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/svg_corazon"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/marcadorVidasTextView"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="X3"
+                android:textColor="#FFFFFF"
+                android:gravity="left|center_vertical"
+                android:textSize="40dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/marcadorTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="(0/10)"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/imageViewTopRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/svg_flecha_atras"
+            android:clickable="true"
+            android:onClick="irAtras"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/palabraLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
     <TextView
         android:id="@+id/palabraTextView"
         android:layout_width="match_parent"
@@ -14,10 +73,9 @@
         android:gravity="center"
         android:textSize="50dp"
         android:text="palabra"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+      >
     </TextView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/huecosLinearLayout"
@@ -25,7 +83,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/palabraTextView"
+        app:layout_constraintTop_toBottomOf="@id/palabraLinearLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     </LinearLayout>
