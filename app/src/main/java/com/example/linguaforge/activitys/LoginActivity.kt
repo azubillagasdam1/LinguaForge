@@ -11,6 +11,8 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -37,17 +39,17 @@ import java.time.LocalDateTime
 import java.util.Random
 
 
+
 class LoginActivity : AppCompatActivity() {
     private val TAG = "LoginActivity"
     private val RC_SIGN_IN = 9001
     private lateinit var mediaPlayer: MediaPlayer
-    private lateinit var logoImageView:ImageView
-    private lateinit var subtituloTextView:TextView
-    private lateinit var googleImageView:ImageView
-    private lateinit var flechaCurvaImageView:ImageView
-    private lateinit var iniciaSesionTextview:TextView
-    private lateinit var titleTextView:TextView
-
+    private lateinit var logoImageView: ImageView
+    private lateinit var subtituloTextView: TextView
+    private lateinit var googleImageView: ImageView
+    private lateinit var flechaCurvaImageView: ImageView
+    private lateinit var iniciaSesionTextview: TextView
+    private lateinit var titleTextView: TextView
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,13 +61,13 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-         mediaPlayer = MediaPlayer.create(this, R.raw.click_sound)
-         logoImageView = findViewById<ImageView>(R.id.logoImageView)
-         subtituloTextView = findViewById<TextView>(R.id.subtitleTextView)
-         googleImageView = findViewById<ImageView>(R.id.googleSignInImageView)
-         flechaCurvaImageView = findViewById<ImageView>(R.id.flechaCurvaImageView)
-         iniciaSesionTextview = findViewById<TextView>(R.id.iniciaSesionTextview)
-        titleTextView = findViewById<TextView>(R.id.titleTextView)
+        mediaPlayer = MediaPlayer.create(this, R.raw.click_sound)
+        logoImageView = findViewById(R.id.logoImageView)
+        subtituloTextView = findViewById(R.id.subtitleTextView)
+        googleImageView = findViewById(R.id.googleSignInImageView)
+        flechaCurvaImageView = findViewById(R.id.flechaCurvaImageView)
+        iniciaSesionTextview = findViewById(R.id.iniciaSesionTextview)
+        titleTextView = findViewById(R.id.titleTextView)
 
         // Comprobar si el usuario ya está autenticado con Firebase al iniciar la actividad
         if (FirebaseDB.getInstanceFirebase().currentUser != null) {
@@ -74,42 +76,37 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
+
         animacionFondo()
         animacionMovimientoImageView(googleImageView)
+        startErrorAnimation(subtituloTextView)
 
+        setupInitialAnimations()
+        setupGoogleImageViewInteractions()
+    }
 
-
-
-        logoImageView.alpha = 0f
-        logoImageView.scaleX = 2f
-        logoImageView.scaleY = 2f
-
+    private fun setupInitialAnimations() {
         val fadeInAnimator = ObjectAnimator.ofFloat(logoImageView, "alpha", 0f, 1f).apply {
             duration = 5000
         }
-
         val scaleXAnimator = ObjectAnimator.ofFloat(logoImageView, "scaleX", 2f, 1f).apply {
             duration = 3000
         }
-
         val scaleYAnimator = ObjectAnimator.ofFloat(logoImageView, "scaleY", 2f, 1f).apply {
             duration = 3000
         }
 
-
-
-        titleTextView.alpha = 0f
-        titleTextView.scaleX = 2f
-        titleTextView.scaleY = 2f
+        AnimatorSet().apply {
+            playTogether(fadeInAnimator, scaleXAnimator, scaleYAnimator)
+            start()
+        }
 
         val fadeInAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "alpha", 0f, 1f).apply {
             duration = 5000
         }
-
         val scaleXAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "scaleX", 2f, 1f).apply {
             duration = 3000
         }
-
         val scaleYAnimatorTitle = ObjectAnimator.ofFloat(titleTextView, "scaleY", 2f, 1f).apply {
             duration = 3000
         }
@@ -118,85 +115,47 @@ class LoginActivity : AppCompatActivity() {
             playTogether(fadeInAnimatorTitle, scaleXAnimatorTitle, scaleYAnimatorTitle)
             start()
         }
+    }
 
-
-        AnimatorSet().apply {
-            playTogether(fadeInAnimator, scaleXAnimator, scaleYAnimator)
-            start()
-        }
-
-
-
-        googleImageView.setAlpha(0f)
-        subtituloTextView.setAlpha(0f)
-        flechaCurvaImageView.setAlpha(0f)
-        iniciaSesionTextview.setAlpha(0f)
-
-
-
-        googleImageView.alpha = 0f
-        subtituloTextView.alpha = 0f
-        flechaCurvaImageView.alpha = 0f
-        iniciaSesionTextview.alpha = 0f
-
-
-
-        // Animación para iniciaSesionTextview con retraso
-        ObjectAnimator.ofFloat(googleImageView, "alpha", 0f, 1f).apply {
-            duration = 5000 // Duración de la animación
-            startDelay = 1000    // Retraso antes de iniciar la animación
-            start() // Iniciar la animación
-        }
-// Animación para iniciaSesionTextview con retraso
-        ObjectAnimator.ofFloat(subtituloTextView, "alpha", 0f, 1f).apply {
-            duration = 5000 // Duración de la animación
-            startDelay = 2000 // Retraso antes de iniciar la animación
-            start() // Iniciar la animación
-        }
-
-        ObjectAnimator.ofFloat(flechaCurvaImageView, "alpha", 0f, 1f).apply {
-            duration = 5000 // Duración de la animación en milisegundos
-            startDelay = 5000 // Retraso antes de iniciar la animación
-            start() // Iniciar la animación
-        }
-
-// Animación para iniciaSesionTextview con retraso
-        ObjectAnimator.ofFloat(iniciaSesionTextview, "alpha", 0f, 1f).apply {
-            duration = 5000 // Duración de la animación
-            startDelay = 5000 // Retraso antes de iniciar la animación
-            start() // Iniciar la animación
-        }
-
-
-
-
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupGoogleImageViewInteractions() {
         googleImageView.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Establecer el punto de pivote en el centro y escalar la vista.
-                    v.pivotX = v.width / 2f
-                    v.pivotY = v.height / 2f
                     v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).start()
                     true
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    // Restaurar la escala de la vista.
-                    v.pivotX = v.width / 2f
-                    v.pivotY = v.height / 2f
                     v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
 
                     if (event.action == MotionEvent.ACTION_UP) {
-                        // Aquí ejecutas la lógica de autenticación cuando el usuario suelta la vista.
-                        // Suponiendo que tienes una función que inicia la autenticación con Google.
                         iniciarSesionGoogle()
                     }
-
                     true
                 }
                 else -> false
             }
         }
+    }
 
+    private fun startErrorAnimation(view: View) {
+        view.setBackgroundResource(R.drawable.style_bloque_error_letras)
+        val shakeAnimation = ObjectAnimator.ofFloat(view, "translationX", 0f, 10f, -10f, 10f, -10f, 0f).apply {
+            duration = 100
+        }
+        shakeAnimation.start()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            view.setBackgroundResource(R.drawable.style_bloque_letras)
+            fadeInBackground(view)
+        }, 100)
+    }
+
+    private fun fadeInBackground(view: View) {
+        val fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+            duration = 500
+        }
+        fadeIn.start()
     }
 
 

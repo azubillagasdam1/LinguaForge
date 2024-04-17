@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/style_background_fragment"
-    tools:context=".activitys.TraductorActivity">
+    tools:context=".activitys.TraductorActivity"
+    android:background="@drawable/style_background_fragment">
 
-    <!-- Contenedor LinearLayout principal -->
-    <LinearLayout
+    <!-- Fondos como capa base -->
+    <ImageView
+        android:id="@+id/fondoletras1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras" />
+
+    <ImageView
+        android:id="@+id/fondoletras2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras2" />
+
+    <ImageView
+        android:id="@+id/fondoletras3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras3" />
+
+    <ImageView
+        android:id="@+id/fondoletras4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_letras4" />
+
+    <!-- ScrollView con todos los demás elementos encima de los fondos -->
+    <ScrollView
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+      >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
 
         <!-- Primer LinearLayout horizontal -->
         <LinearLayout
@@ -201,5 +240,6 @@
             android:clickable="true"
             android:onClick="irAtras"
             android:text="atras" />
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

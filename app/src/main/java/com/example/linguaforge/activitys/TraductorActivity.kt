@@ -1,5 +1,7 @@
 package com.example.linguaforge.activitys
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -24,6 +26,7 @@ import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditio
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import java.util.Locale
+import java.util.Random
 
 
 class TraductorActivity : AppCompatActivity() {
@@ -46,6 +49,7 @@ class TraductorActivity : AppCompatActivity() {
     private var translateTV: TextView? = null
     private var papelera: ImageView? = null
     private var check: ImageView? = null
+    private lateinit var fondos: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +68,8 @@ class TraductorActivity : AppCompatActivity() {
         papelera = findViewById(R.id.idPapeleraImageView)
         check = findViewById(R.id.checkImageView)
 
-
+        setupBackgroundImages()
+        animateBackgrounds()
         setIdiomas()
 
 
@@ -155,6 +160,45 @@ class TraductorActivity : AppCompatActivity() {
         }
 
     }
+    private fun setupBackgroundImages() {
+        fondos = listOf(
+            findViewById(R.id.fondoletras1),
+            findViewById(R.id.fondoletras2),
+            findViewById(R.id.fondoletras3),
+            findViewById(R.id.fondoletras4)
+        )
+    }
+    private fun animateBackgrounds() {
+        val random = Random()
+        fondos.forEachIndexed { index, imageView ->
+            imageView.alpha = 0f
+            animateBackground(imageView, random, index * 1000L)
+        }
+    }
+    private fun animateBackground(view: ImageView, random: Random, delay: Long) {
+        val fadeInDuration = 3000L + random.nextInt(1000)
+        val fadeOutDuration = 3000L + random.nextInt(1000)
+
+        val fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+            duration = fadeInDuration
+            startDelay = delay
+        }
+        val fadeOut = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).apply {
+            duration = fadeOutDuration
+            startDelay = fadeInDuration
+        }
+        val set = AnimatorSet().apply {
+            playSequentially(fadeIn, fadeOut)
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    animateBackground(view, random, 0) // Loop the animation
+                }
+            })
+        }
+        set.start()
+    }
+
 
     private fun setIdiomas() {
         fromLanguageCode = Utils.getLanguageFirebaseCode(Utils.getLanguageByCountryCode(idioma1))
