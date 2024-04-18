@@ -127,7 +127,7 @@
             android:layout_height="match_parent"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:src="@drawable/svg_jugar"
+            android:src="@drawable/svg_candado"
             android:clickable="true"
             android:onClick="irModo3"/>  <!-- Ajusta el drawable -->
 
@@ -139,7 +139,7 @@
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:gravity="center"
-            android:text="Modo 3" />  <!-- Ajusta el texto -->
+            android:text="bloqueado" />  <!-- Ajusta el texto -->
     </FrameLayout>
     <!-- Cuadrado 4 -->
     <FrameLayout
@@ -160,7 +160,7 @@
             android:layout_height="match_parent"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:src="@drawable/svg_jugar"
+            android:src="@drawable/svg_candado"
             android:clickable="true"
             android:onClick="irModo4"/>  <!-- Ajusta el drawable -->
 
@@ -172,7 +172,7 @@
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:gravity="center"
-            android:text="Modo 4" />  <!-- Ajusta el texto -->
+            android:text="bloqueado" />  <!-- Ajusta el texto -->
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
