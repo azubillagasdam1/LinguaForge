@@ -123,8 +123,6 @@ class CrearIdiomaFragment(val contextoElegirActivity:Context) : DialogFragment()
             closeFragment()
         }
         return view
-
-
     }
 
 

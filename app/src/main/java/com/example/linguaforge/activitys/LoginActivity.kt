@@ -76,10 +76,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()  // Finalizar LoginActivity para que el usuario no pueda volver a ella presionando el botón Atrás
         }
-
+        alphaChanger(logoImageView,0f)
+        alphaChanger(subtituloTextView,0f)
+        alphaChanger(flechaCurvaImageView,0f)
+        alphaChanger(iniciaSesionTextview,0f)
+        alphaChanger(titleTextView,0f)
         animacionFondo()
         animacionMovimientoImageView(googleImageView)
-        startErrorAnimation(subtituloTextView)
+
 
         setupInitialAnimations()
         setupGoogleImageViewInteractions()
@@ -115,7 +119,30 @@ class LoginActivity : AppCompatActivity() {
             playTogether(fadeInAnimatorTitle, scaleXAnimatorTitle, scaleYAnimatorTitle)
             start()
         }
+
+        // Animación para el subtituloTextView con retraso de 3 segundos
+        Handler(Looper.getMainLooper()).postDelayed({
+            val fadeInAnimatorSubtitle = ObjectAnimator.ofFloat(subtituloTextView, "alpha", 0f, 1f).apply {
+                duration = 3000
+            }
+            fadeInAnimatorSubtitle.start()
+        }, 3000) // Retraso de 3000 milisegundos
+
+        // Animaciones para flechaCurvaImageView e iniciaSesionTextview con retraso de 10 segundos
+        Handler(Looper.getMainLooper()).postDelayed({
+            val fadeInAnimatorArrow = ObjectAnimator.ofFloat(flechaCurvaImageView, "alpha", 0f, 1f).apply {
+                duration = 3000
+            }
+            val fadeInAnimatorSignIn = ObjectAnimator.ofFloat(iniciaSesionTextview, "alpha", 0f, 1f).apply {
+                duration = 3000
+            }
+
+            fadeInAnimatorArrow.start()
+            fadeInAnimatorSignIn.start()
+        }, 7000) // Retraso de 10000 milisegundos
     }
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupGoogleImageViewInteractions() {
@@ -136,6 +163,10 @@ class LoginActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    fun alphaChanger(view: View, alpha: Float) {
+        view.alpha = alpha
     }
 
     private fun startErrorAnimation(view: View) {
@@ -400,4 +431,5 @@ class LoginActivity : AppCompatActivity() {
             start()
         }
     }
+
 }

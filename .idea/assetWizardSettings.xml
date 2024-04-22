@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="svg_candado" />
-                            <entry key="sourceFile" value="C:\Users\ARUBA\Downloads\candado.svg" />
+                            <entry key="outputName" value="logo" />
+                            <entry key="sourceFile" value="C:\Users\ARUBA\Desktop\logoFinal.svg" />
                           </map>
                         </option>
                       </PersistentState>
