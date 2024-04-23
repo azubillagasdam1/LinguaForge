@@ -155,6 +155,7 @@ class TraductorActivity : AppCompatActivity() {
             // Llama a tu función para eliminar la palabra aquí
             Utils.eliminarPalabra(clave, 999999)
             papelera?.visibility = View.GONE
+            translatedText = ""
             translateTV?.visibility = View.GONE
 
         }
@@ -210,7 +211,7 @@ class TraductorActivity : AppCompatActivity() {
     }
 
     private fun translateText(fromLanguageCode: Int, toLanguageCode: Int, source: String) {
-        translateTV?.text = "Downloading model! Please wait..."
+        translateTV?.text = "Descargando Modelo! Espere porfavor..."
 
         val options = FirebaseTranslatorOptions.Builder()
             .setSourceLanguage(fromLanguageCode)
@@ -234,14 +235,14 @@ class TraductorActivity : AppCompatActivity() {
             }.addOnFailureListener { e ->
                 Toast.makeText(
                     this@TraductorActivity,
-                    "Failed to translate! Try again",
+                    "Error en la traducción! Intente nuevamente",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }.addOnFailureListener { e ->
             Toast.makeText(
                 this@TraductorActivity,
-                "Failed to download model!! Check your internet connection.",
+                "Error al descargar el modelo!! Comprueba tu conecxion.",
                 Toast.LENGTH_SHORT
             ).show()
         }

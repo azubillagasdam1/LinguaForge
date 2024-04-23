@@ -136,7 +136,7 @@ class IdiomaActivity : AppCompatActivity() {
         val item = itemIdiomas[position]
         val mediaPlayer = MediaPlayer.create(this, R.raw.click_go_sound)
         mediaPlayer.start()
-        Toast.makeText(this, "Tocado: ${item.title}", Toast.LENGTH_SHORT).show()
+
         Log.d("ElegirActivity", "Item en posición $position fue tocado.")
         val intent = Intent(this, PalabrasActivity::class.java)
         intent.putExtra("idioma1", Utils.getCountryCode(item.idioma1))
@@ -148,8 +148,6 @@ class IdiomaActivity : AppCompatActivity() {
 
     private fun onItemLongClicked(position: Int) {
         val item = itemIdiomas[position]
-        Toast.makeText(this, "Mantenido: ${item.title}", Toast.LENGTH_SHORT).show()
-        Log.d("ElegirActivity", "Item en posición $position fue mantenido.")
 
         val itemView = recyclerView?.findViewHolderForAdapterPosition(position)?.itemView
         // Cambiar el fondo al drawable

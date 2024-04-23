@@ -42,6 +42,7 @@ class PalabrasActivity : AppCompatActivity() {
     private var jugarButton: ImageView? = null
     private var recyclerView: RecyclerView? = null
     private var fondo: LinearLayout? = null
+    private lateinit var textViewTitulo: TextView
     private lateinit var textViewIzquierdo: TextView
     private lateinit var textViewDerecho: TextView
     private lateinit var itemPalabra: List<ItemPalabra>
@@ -66,6 +67,7 @@ class PalabrasActivity : AppCompatActivity() {
         clave = idioma1 + "-" + idioma2
 
 
+        textViewTitulo = findViewById<TextView>(R.id.textViewTitulo)
         textViewIzquierdo = findViewById<TextView>(R.id.textViewIzquierdo)
         textViewDerecho = findViewById<TextView>(R.id.textViewDerecho)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -124,7 +126,7 @@ class PalabrasActivity : AppCompatActivity() {
                 // Acción para cuando no se selecciona nada
             }
         }
-
+        textViewTitulo.text = textViewTitulo.text.toString() + " " +Utils.getFlagEmoji(idioma2)
         ponerFondo()
     }
 
@@ -237,8 +239,7 @@ class PalabrasActivity : AppCompatActivity() {
 
     private fun onItemLongClicked(position: Int) {
         val item = itemPalabra[position]
-        Toast.makeText(this, "Mantenido: ${item.traduccion}", Toast.LENGTH_SHORT).show()
-        Log.d("ElegirActivity", "Item en posición $position fue mantenido.")
+
 
         val itemView = recyclerView?.findViewHolderForAdapterPosition(position)?.itemView
         itemView?.setBackgroundColor(Color.parseColor("#ADD8E6")) // Cambiar el color cuando se mantiene presionado

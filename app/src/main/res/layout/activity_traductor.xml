@@ -49,7 +49,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -57,7 +57,7 @@
         <!-- Primer LinearLayout horizontal -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
@@ -136,7 +136,7 @@
                 android:background="@drawable/background"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Enter text"
+                android:hint="Introduce texto"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:textAlignment="center"
@@ -162,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="Translate"
+            android:text="Traducir"
             android:textAllCaps="false"
             android:textSize="19sp" />
 
@@ -202,15 +202,6 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Or"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
-
 
         <ImageView
             android:id="@+id/idIVMic"
@@ -228,18 +219,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Say something"
+            android:text="Di algo"
             android:textAlignment="center"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"/>
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/CustomMaterialButton"
-            android:clickable="true"
-            android:onClick="irAtras"
-            android:text="atras" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|center"
+                android:src="@drawable/svg_flecha_atras"
+                android:clickable="true"
+                android:onClick="irAtras" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
