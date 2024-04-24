@@ -25,7 +25,7 @@
         private var marcador: TextView? = null
         private var marcadorVidas: TextView? = null
         private var corazonImageView: ImageView? = null
-        private final var MAXIMO_VIDAS: Int = 1
+        private final var MAXIMO_VIDAS: Int = 3
         private lateinit var clave: String
         private var palabras: List<List<String>>? = null
         private var textViewPalabra: TextView? = null
@@ -213,7 +213,8 @@
 
         private fun recargarPartida() {
             jugadas = jugadas!! + 1
-
+            intentos = 0
+            aciertos = 0
             efectoVerdeTemporal {
                 cargarPalabra()
                 generarHuecos(respuestaCorrecta!!, aciertos!!)

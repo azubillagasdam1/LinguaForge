@@ -24,8 +24,10 @@ import kotlin.random.Random
 import android.media.MediaPlayer
 import android.os.Vibrator
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import kotlinx.coroutines.launch
 
 class Juego1Activity : AppCompatActivity() {
     private final var MAXIMO_VIDAS: Int = 3
@@ -68,6 +70,7 @@ class Juego1Activity : AppCompatActivity() {
         marcadorVidas = findViewById(R.id.marcadorVidasTextView)
         corazonImageView = findViewById(R.id.corazonImageView)
         cargarPalabras()
+        actualizarMarcador()
 
         configurarListenersRespuestas(respuesta1!!)
         configurarListenersRespuestas(respuesta2!!)
@@ -116,10 +119,14 @@ class Juego1Activity : AppCompatActivity() {
     }
 
 
-    private fun obtenerPalabras() = runBlocking {
-        palabras = Utils.obtenerPalabrasPorClave(clave)?.shuffled()
+    private fun obtenerPalabras() {
+        lifecycleScope.launch {
+            palabras = Utils.obtenerPalabrasPorClave(clave)?.shuffled()
+            // Puedes actualizar la UI aquí si es necesario, por ejemplo, refrescar un adaptador.
 
+        }
     }
+
 
     private fun cargarPalabras() {
         // Asegurarse de que hay palabras y el índice no supera el tamaño de la lista
