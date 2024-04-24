@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activitys.TraductorActivity"
-    android:background="@drawable/style_background_fragment">
+    android:background="#E0F7FF">
 
     <!-- Fondos como capa base -->
     <ImageView

@@ -180,39 +180,37 @@ class PalabrasActivity : AppCompatActivity() {
     }
 
 
-     private fun crearRecyclerView(context: Context, modoOrdenacion: Int) = runBlocking {
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+    private fun crearRecyclerView(context: Context, modoOrdenacion: Int) {
+        lifecycleScope.launch {
+            recyclerView = findViewById(R.id.recyclerView)
+            recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        var clave = idioma1 + "-" + idioma2
-        println(clave)
-        val palabrasList = UtilsDB.getPalabras() ?: listOf()
+            var clave = idioma1 + "-" + idioma2
+            println(clave)
+            val palabrasList = UtilsDB.getPalabras() ?: listOf()
 
-        // Asumiendo que `clave` es la clave para buscar en el mapa de idiomas.
-        val listaDePalabrasBruta =
-            palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
+            val listaDePalabrasBruta =
+                palabrasList.find { it.containsKey(clave) }?.get(clave) ?: listOf()
 
-        // Determinar el orden de la lista según modoOrdenacion
-        val listaDePalabras = when (modoOrdenacion) {
-            2 -> listaDePalabrasBruta.sortedBy { it[0] }
-            3 -> listaDePalabrasBruta.sortedBy { it[1] }
-            4 -> listaDePalabrasBruta.sortedByDescending { it[0] }
-            5 -> listaDePalabrasBruta.sortedByDescending { it[1] }
-            else -> listaDePalabrasBruta
-        }
+            // Determinar el orden de la lista según modoOrdenacion
+            val listaDePalabras = when (modoOrdenacion) {
+                2 -> listaDePalabrasBruta.sortedBy { it[0] }
+                3 -> listaDePalabrasBruta.sortedBy { it[1] }
+                4 -> listaDePalabrasBruta.sortedByDescending { it[0] }
+                5 -> listaDePalabrasBruta.sortedByDescending { it[1] }
+                else -> listaDePalabrasBruta
+            }
 
-        itemPalabra = listaDePalabras.map {
-            ItemPalabra(
-                clave,
-                it[0], // Palabra
-                it[1] // Traducción
-            )
-        }
+            itemPalabra = listaDePalabras.map {
+                ItemPalabra(
+                    clave,
+                    it[0], // Palabra
+                    it[1] // Traducción
+                )
+            }
 
-        recyclerView?.adapter =
-            MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
+            recyclerView?.adapter = MyPalabraAdapter(itemPalabra, object : MyPalabraAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
-
                     onItemClicked(position)
                 }
 
@@ -220,6 +218,7 @@ class PalabrasActivity : AppCompatActivity() {
                     onItemLongClicked(position)
                 }
             })
+        }
     }
 
 
@@ -279,6 +278,9 @@ class PalabrasActivity : AppCompatActivity() {
     fun irAtras(view: View) {
         val mediaPlayer = MediaPlayer.create(this, R.raw.click_back_sound)
         mediaPlayer.start()
+        val intent = Intent(this, IdiomaActivity::class.java)
+        startActivity(intent)
+        finish()
         onBackPressed()
     }
 

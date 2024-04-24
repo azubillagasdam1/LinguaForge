@@ -15,15 +15,17 @@
     import androidx.appcompat.app.AppCompatActivity
     import androidx.core.view.ViewCompat
     import androidx.core.view.WindowInsetsCompat
+    import androidx.lifecycle.lifecycleScope
     import com.example.linguaforge.R
     import com.example.linguaforge.models.utils.Utils
+    import kotlinx.coroutines.launch
     import kotlinx.coroutines.runBlocking
 
     class Juego2Activity : AppCompatActivity() {
         private var marcador: TextView? = null
         private var marcadorVidas: TextView? = null
         private var corazonImageView: ImageView? = null
-        private final var MAXIMO_VIDAS: Int = 3
+        private final var MAXIMO_VIDAS: Int = 1
         private lateinit var clave: String
         private var palabras: List<List<String>>? = null
         private var textViewPalabra: TextView? = null
@@ -55,6 +57,7 @@
 
             generarHuecos(respuestaCorrecta!!, 0)
             generarCulebra(respuestarevuelta!!)
+            actualizarMarcador()
 
         }
 
@@ -78,10 +81,14 @@
             }
         }
 
-        private fun obtenerPalabras() = runBlocking {
-            palabras = Utils.obtenerPalabrasPorClave(clave)?.shuffled()
+        private fun obtenerPalabras() {
+            lifecycleScope.launch {
+                palabras = Utils.obtenerPalabrasPorClave(clave)?.shuffled()
+                // Puedes actualizar la UI aquí si es necesario, por ejemplo, refrescar un adaptador.
 
+            }
         }
+
 
         private fun cargarPalabra() {
             if (palabras != null && palabras!!.isNotEmpty() && jugadas!! < palabras!!.size) {
@@ -206,8 +213,7 @@
 
         private fun recargarPartida() {
             jugadas = jugadas!! + 1
-            aciertos = 0
-            intentos = 0
+
             efectoVerdeTemporal {
                 cargarPalabra()
                 generarHuecos(respuestaCorrecta!!, aciertos!!)
